@@ -29,7 +29,7 @@
                   <Font size="46.0" />
                </font>
             </Label>
-            <Button fx:id = "go" onAction = "#go" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="GO" translateX="150.0" GridPane.rowIndex="2" />
+            <Button fx:id = "go" onAction = "#go" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="GO" translateX="150.0" translateY = "30.0" GridPane.rowIndex="2" />
             <Button fx:id = "exit" onAction = "#exit" mnemonicParsing="false" prefHeight="33.0" prefWidth="27.0" text="X" translateY="-35.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
