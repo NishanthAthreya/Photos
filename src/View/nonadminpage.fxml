@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginController">
+   <bottom>
+      <BorderPane prefHeight="24.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <bottom>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" text="Create Album" translateX="60.0" />
+                  <Button mnemonicParsing="false" text="Rename Album" translateX="50.0" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" text="Delete Selected Album" translateX="30.0" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </bottom>
+         <center>
+            <TextField prefHeight="122.0" prefWidth="600.0" promptText="Enter album which you want to create or rename." BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </bottom>
+   <top>
+      <GridPane prefHeight="36.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="View Album" translateX="30.0" />
+            <Button mnemonicParsing="false" text="Search Photos" translateX="40.0" GridPane.columnIndex="1" />
+            <Button mnemonicParsing="false" text="Logout" translateX="140.0" GridPane.columnIndex="2" />
+            <Button mnemonicParsing="false" text="Quit" translateX="90.0" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+   </top>
+   <center>
+      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
