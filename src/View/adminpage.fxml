@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AdminController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -23,10 +23,10 @@
          <children>
             <Button fx:id = "list" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="List Users" translateX="150.0" />
             <TextField fx:id = "username" promptText="enter username for which you want to create or delete" GridPane.rowIndex="1" />
-            <Button	fx:id = "create" mnemonicParsing="false" prefHeight="25.0" prefWidth="293.0" text="Create" translateX="150.0" GridPane.rowIndex="2" />
+            <Button	fx:id = "create" onAction = "#create" mnemonicParsing="false" prefHeight="25.0" prefWidth="293.0" text="Create" translateX="150.0" GridPane.rowIndex="2" />
             <Button fx:id = "delete" mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Delete" translateX="150.0" GridPane.rowIndex="3" />
-            <Button fx:id = "logout" mnemonicParsing="false" text="Logout" translateX="25.0" translateY="-25.0" GridPane.columnIndex="1" />
-            <Button fx:id = "quit" mnemonicParsing="false" text="Quit" translateX="-40.0" translateY="-25.0" GridPane.columnIndex="1" />
+            <Button fx:id = "logout" onAction = "#logout" mnemonicParsing="false" text="Logout" translateX="25.0" translateY="-25.0" GridPane.columnIndex="1" />
+            <Button fx:id = "quit" onAction = "#quit" mnemonicParsing="false" text="Quit" translateX="-40.0" translateY="-25.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </center>
