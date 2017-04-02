@@ -23,14 +23,14 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="Create Album" translateX="60.0" />
-                  <Button mnemonicParsing="false" text="Rename Album" translateX="50.0" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" text="Delete Selected Album" translateX="30.0" GridPane.columnIndex="2" />
+                  <Button fx:id = "create" onAction = "#create" mnemonicParsing="false" text="Create Album" translateX="60.0" />
+                  <Button fx:id = "rename" mnemonicParsing="false" text="Rename Album" translateX="50.0" GridPane.columnIndex="1" />
+                  <Button fx:id = "delete" mnemonicParsing="false" text="Delete Selected Album" translateX="30.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </bottom>
          <center>
-            <TextField prefHeight="122.0" prefWidth="600.0" promptText="Enter album which you want to create or rename." BorderPane.alignment="CENTER" />
+            <TextField fx:id="album" prefHeight="122.0" prefWidth="600.0" promptText="Enter album which you want to create or rename." BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </bottom>
@@ -53,6 +53,6 @@
       </GridPane>
    </top>
    <center>
-      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="listofalbums" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

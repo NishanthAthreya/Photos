@@ -22,7 +22,8 @@ public class LoginController {
  private static final String filename= "users.dat";
  public void start()
     {
-	 	open();
+	 
+	 open();
     }
  public void exit(ActionEvent e){
 	 Platform.exit();
@@ -68,7 +69,11 @@ public class LoginController {
   if(path.equals("/View/adminpage.fxml")){
 	  AdminController adminController = loader.getController();
 	  adminController.start();
-  }else{
+  }
+  if (path.equals("/View/nonadminpage.fxml"))
+  {
+	  NonAdminController nonadmin = loader.getController();
+	  nonadmin.start();
 	  //non admin controller stuff
   }
   stage.show();

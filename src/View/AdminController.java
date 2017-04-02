@@ -8,11 +8,15 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -24,7 +28,9 @@ public class AdminController {
 	@FXML Button list;
 	@FXML Button quit;
 	@FXML TextField username;
+	@FXML ListView<String> listofusers;
 	private ArrayList<String> users;
+	protected static ObservableList<String> obsList =FXCollections.observableArrayList();;
 	private static final String filename= "users.dat";
 	public void start()
     {
@@ -48,18 +54,68 @@ public class AdminController {
 			if(users.get(i).equals(username.getText()))
 					return;//already exists
 		}
+		//System.out.println(username.getText());
+		obsList.add(username.getText());
 		users.add(username.getText());
+		save();
+	}
+	public void delete(ActionEvent e)
+	{
+		if (!users.contains(username.getText()))
+		{
+			//give an alert!
+		}
+		obsList.remove(username.getText());
+		users.remove(username.getText());
+		save();
+	}
+	public void listUsers(ActionEvent e)
+	{
+		listofusers = new ListView<String>();
+		for (int i = 0; i<users.size();i++)
+		{
+			if(!obsList.contains(users.get(i)))
+			{
+			obsList.add(users.get(i));
+			}
+		}
+		//listofusers.setItems(obsList);
+		//listofusers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>());
+		try{
+			handle(e,"/View/listofusers.fxml");
+		}catch(Exception e1)
+		{
+			//do nothing
+		}
+	}
+	public ObservableList<String> getListofUsers()
+	{
+		return obsList;
 	}
 	private void handle(ActionEvent e, String path) throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+		
+		//System.out.println("loader obtained" + loader);
 		BorderPane root = (BorderPane)loader.load();
-		Stage stage = (Stage) create.getScene().getWindow();
+		Stage stage = (Stage) list.getScene().getWindow();
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
+		if(path.equals("/View/listofusers.fxml"))
+		{
+			//System.out.println("entered list of users");
+			//root = (BorderPane)loader.load();
+			ListofUsersController listController = loader.getController();
+			//System.out.println(listController);
+			listController.start();
+			//System.out.println("started and back in list");
+		}
 		if(path.equals("/View/loginpage.fxml")){
+			//System.out.println("entered login page");
 			LoginController loginController = loader.getController();
+			//System.out.println(loginController);
 			loginController.start();
 		}
+		
 		stage.show();
 	}
 	/*private void handle(ActionEvent e, String path) throws IOException{

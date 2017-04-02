@@ -21,10 +21,10 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id = "list" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="List Users" translateX="150.0" />
+            <Button fx:id = "list" onAction = "#listUsers" mnemonicParsing="false" prefHeight="25.0" prefWidth="281.0" text="List Users" translateX="150.0" />
             <TextField fx:id = "username" promptText="enter username for which you want to create or delete" GridPane.rowIndex="1" />
             <Button	fx:id = "create" onAction = "#create" mnemonicParsing="false" prefHeight="25.0" prefWidth="293.0" text="Create" translateX="150.0" GridPane.rowIndex="2" />
-            <Button fx:id = "delete" mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Delete" translateX="150.0" GridPane.rowIndex="3" />
+            <Button fx:id = "delete" onAction = "#delete" mnemonicParsing="false" prefHeight="25.0" prefWidth="290.0" text="Delete" translateX="150.0" GridPane.rowIndex="3" />
             <Button fx:id = "logout" onAction = "#logout" mnemonicParsing="false" text="Logout" translateX="25.0" translateY="-25.0" GridPane.columnIndex="1" />
             <Button fx:id = "quit" onAction = "#quit" mnemonicParsing="false" text="Quit" translateX="-40.0" translateY="-25.0" GridPane.columnIndex="1" />
          </children>
