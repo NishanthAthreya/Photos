@@ -45,7 +45,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="viewAlbum" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="View Album" translateX="30.0" />
+            <Button fx:id="viewAlbum" onAction="#viewAlbum" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="View Album" translateX="30.0" />
             <Button fx:id="searchPhotos" mnemonicParsing="false" text="Search Photos" translateX="40.0" GridPane.columnIndex="1" />
             <Button fx:id="logout" onAction = "#logout" mnemonicParsing="false" text="Logout" translateX="140.0" GridPane.columnIndex="2" />
             <Button fx:id="quit" onAction = "#quit" mnemonicParsing="false" text="Quit" translateX="90.0" GridPane.columnIndex="2" />

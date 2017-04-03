@@ -30,20 +30,25 @@ public class AdminController {
 	@FXML TextField username;
 	@FXML ListView<String> listofusers;
 	private ArrayList<String> users;
-	protected static ObservableList<String> obsList =FXCollections.observableArrayList();;
+	protected static ObservableList<String> obsList =FXCollections.observableArrayList();
+	private UserAlbum userAlbum;
 	private static final String filename= "users.dat";
+	private static final String filename2 = "userAlbums.dat";
 	public void start()
     {
 		open();
+		openAlbums();
     }
 	public void quit(ActionEvent e){
 		save();
+		saveAlbums();
 		Platform.exit();
 		System.exit(0);
 	}
 	public void logout(ActionEvent e){
 		try{
 			save();
+			saveAlbums();
 			handle(e, "/View/loginpage.fxml");
 		}catch(Exception e1){
 			//do nothing
@@ -57,7 +62,9 @@ public class AdminController {
 		//System.out.println(username.getText());
 		obsList.add(username.getText());
 		users.add(username.getText());
+		userAlbum.addUser(username.getText());
 		save();
+		saveAlbums();
 	}
 	public void delete(ActionEvent e)
 	{
@@ -67,7 +74,9 @@ public class AdminController {
 		}
 		obsList.remove(username.getText());
 		users.remove(username.getText());
+		userAlbum.deleteUser(username.getText());
 		save();
+		saveAlbums();
 	}
 	public void listUsers(ActionEvent e)
 	{
@@ -147,6 +156,19 @@ public class AdminController {
 		}
 		
 	}
+	private void saveAlbums(){
+		try {
+			@SuppressWarnings("resource")
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(filename2));
+			oos.writeObject(userAlbum);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			//problem
+		}
+		
+	}
 	@SuppressWarnings("unchecked")
 	private void open(){
 		try{
@@ -159,6 +181,19 @@ public class AdminController {
 		}catch(Exception e){
 			//no users in system yet aside from Admin
 			users = new ArrayList<String>();
+		}
+	}
+	private void openAlbums(){
+		try{
+			@SuppressWarnings("resource")
+			ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(filename2));
+			userAlbum = (UserAlbum)ois.readObject();
+			if(userAlbum == null)
+				userAlbum = new UserAlbum();
+		}catch(Exception e){
+			//no users in system yet aside from Admin
+			userAlbum = new UserAlbum();
 		}
 	}
 }

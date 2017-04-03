@@ -73,7 +73,7 @@ public class LoginController {
   if (path.equals("/View/nonadminpage.fxml"))
   {
 	  NonAdminController nonadmin = loader.getController();
-	  nonadmin.start();
+	  nonadmin.start(text.getText());
 	  //non admin controller stuff
   }
   stage.show();
