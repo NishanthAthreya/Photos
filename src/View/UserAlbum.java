@@ -10,6 +10,7 @@ public class UserAlbum implements Serializable{
 	//private HashMap<String, ArrayList<String>> albums;
 	private HashMap<String, HashMap<String, ArrayList<String>>> albums;
 	//private HashMap<String, String> pics;
+	//private HashMap<String, HashMap<String, ArrayList<Picture>>> albums;
 	public UserAlbum(){
 		albums = new HashMap<String, HashMap<String, ArrayList<String>>>();
 	}
@@ -19,10 +20,13 @@ public class UserAlbum implements Serializable{
 	public void addAlbum(String user, String album_name){
 		if(albums.containsKey(user)){
 			if(albums.get(user) == null){//no albums exist for users
+				//HashMap<String, ArrayList<String>> album_list = new HashMap<String, ArrayList<String>>();
 				HashMap<String, ArrayList<String>> album_list = new HashMap<String, ArrayList<String>>();
+				//album_list.put(album_name, new ArrayList<String>());
 				album_list.put(album_name, new ArrayList<String>());
 				albums.put(user, album_list);
 			}else{//at least one album already present for user
+				//albums.get(user).put(album_name, new ArrayList<String>());
 				albums.get(user).put(album_name, new ArrayList<String>());
 			}
 		}

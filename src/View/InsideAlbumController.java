@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -30,6 +32,9 @@ import javafx.stage.Stage;
 
 public class InsideAlbumController {
 	@FXML Button add;
+	@FXML Button back;
+	@FXML Button logout;
+	@FXML Button view;
 	@SuppressWarnings("rawtypes")
 	@FXML ChoiceBox choice;
 	private UserAlbum userAlbum;
@@ -45,7 +50,8 @@ public class InsideAlbumController {
 		this.user_name = user;
 		this.album_name = album;
 		option = 0;
-		choice.setItems(FXCollections.observableArrayList("Options", "Copy", "Move", "Remove"));
+		//System.out.println(choice);
+		choice.setItems(FXCollections.observableArrayList("Options", "Copy", "View", "Remove", "Move"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
@@ -53,6 +59,7 @@ public class InsideAlbumController {
 		});
 		openAlbums();
 		pane = root;
+		//System.out.println(add);
 		stage = (Stage) add.getScene().getWindow();
 		ScrollPane scroll = new ScrollPane();
         TilePane tile = new TilePane();
@@ -63,7 +70,7 @@ public class InsideAlbumController {
         if(pics == null)
         	return;
         for(int i = 0;i < pics.size();i++){
-        	System.out.println(pics.get(i));
+        	//System.out.println(pics.get(i));
         	ImageView imageView;
             imageView = createImageView(new File(pics.get(i)));
             tile.getChildren().addAll(imageView);
@@ -82,6 +89,7 @@ public class InsideAlbumController {
 		fileChooser.getExtensionFilters().add(extentionFilter);
 		//Set to user directory or go to default if cannot access
 		String userDirectoryString = System.getProperty("user.home");
+		//System.out.println("user directory string is: " + userDirectoryString);
 		File userDirectory = new File(userDirectoryString);
 		if(!userDirectory.canRead()) {
 		    userDirectory = new File("c:/");
@@ -93,7 +101,7 @@ public class InsideAlbumController {
 		String path;
 		if(chosenFile != null) {
 		    path = chosenFile.getPath();
-		    System.out.println(path);
+		   // System.out.println(path);
 		    if(userAlbum != null){
 		    	userAlbum.addPic(this.user_name, this.album_name, path);
 		    }
@@ -132,7 +140,79 @@ public class InsideAlbumController {
         	
         }
 	}
-	
+	public void back(ActionEvent e)
+	{
+		try{
+			handle(e, "/View/nonadminpage.fxml");
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}
+	public void logout(ActionEvent e)
+	{
+		try{
+			saveAlbums();
+			handle(e,"/View/loginpage.fxml");
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}
+	/*public void view(ActionEvent e)
+	{
+		 ImageView imageView = null;
+	        try {
+	        	
+	            final Image image = new Image(new FileInputStream(imageFile), 105, 0, true,
+	                    true);
+	            imageView = new ImageView(image);
+	            imageView.setFitWidth(105);
+	            imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+	                @Override
+	                public void handle(MouseEvent mouseEvent) {
+	                	
+	                	if(mouseEvent.getButton().equals(view))
+	                	{
+	                		try{
+	                		FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/loginpage.fxml"));
+	                		
+	                		//System.out.println("loader obtained" + loader);
+	                		BorderPane root = (BorderPane)loader.load();
+	                		Stage stage = (Stage) back.getScene().getWindow();
+	                		Scene scene = new Scene(root);
+	                		stage.setScene(scene);
+	                		LoginController photo = new LoginController();
+	                		photo.start();
+	                		stage.show();
+	                		}catch(IOException e1)
+	                		{
+	                			//do nothing
+	                		}
+	                	}
+	                }*/
+	private void handle(ActionEvent e, String path) throws IOException
+	{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+		
+		//System.out.println("loader obtained" + loader);
+		BorderPane root = (BorderPane)loader.load();
+		Stage stage = (Stage) back.getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		if (path.equals("/View/nonadminpage.fxml"))
+		{
+			NonAdminController nonadmin = loader.getController();
+			nonadmin.start(user_name);
+		}
+		if (path.equals("/View/loginpage.fxml"))
+		{
+			LoginController login = loader.getController();
+			login.start();
+		}
+		stage.show();
+	}
 	private void saveAlbums(){
 		try {
 			@SuppressWarnings("resource")
@@ -167,6 +247,7 @@ public class InsideAlbumController {
 
         ImageView imageView = null;
         try {
+        	
             final Image image = new Image(new FileInputStream(imageFile), 105, 0, true,
                     true);
             imageView = new ImageView(image);
@@ -175,10 +256,30 @@ public class InsideAlbumController {
 
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-
+                	
                     if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     	if(mouseEvent.getClickCount() ==1){
-                    		if(option == 3){//deleting
+                    		if(option == 2)	//for now this code is for viewing but option 2 is actually for copy
+                    		{	
+                    			//have to go to new screen (photo display screen)
+                    			try{
+                    				FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/photodisplay.fxml"));
+                    				
+                    				//System.out.println("loader obtained" + loader);
+                    				BorderPane root = (BorderPane)loader.load();
+                    				Stage stage = (Stage) back.getScene().getWindow();
+                    				Scene scene = new Scene(root);
+                    				stage.setScene(scene);
+                    				PhotoDisplayController photo = new PhotoDisplayController();
+                    				photo.start(imageFile.getPath(),user_name, album_name, root);
+                    				//photo.start();
+                    				stage.show();
+                    			}catch(IOException e1)
+                    			{
+                    				//do nothing
+                    			}
+                    		}
+                    		if(option == 3){ //deleting
                     			userAlbum.deletePic(user_name, album_name, imageFile.getPath());
                     			ScrollPane scroll = new ScrollPane();
                     	        TilePane tile = new TilePane();

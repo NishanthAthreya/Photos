@@ -21,9 +21,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="back" mnemonicParsing="false" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
+            <Button fx:id="back" onAction = "#back" mnemonicParsing="false" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
             <Button fx:id="quit" mnemonicParsing="false" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
-            <Button fx:id="logout" mnemonicParsing="false" text="logout" translateX="170.0" GridPane.columnIndex="2" />
+            <Button fx:id="logout" onAction = "#logout" mnemonicParsing="false" text="logout" translateX="170.0" GridPane.columnIndex="2" />
             <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="131.0" translateX="20.0" />
          </children>
       </GridPane>
@@ -48,9 +48,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="View" translateX="70.0" />
-                  <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add Photo" translateX="50.0" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" text="Caption" translateX="60.0" GridPane.columnIndex="2" />
+                  
+                  <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add Photo" translateX="-40.0" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" text="Caption" translateX="50.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
             <TextField promptText=" Edit/Add caption, and click caption button after" />
