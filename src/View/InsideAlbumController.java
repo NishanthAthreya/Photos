@@ -46,7 +46,7 @@ public class InsideAlbumController {
 	Scene scene;
 	BorderPane pane;
 	@SuppressWarnings("unchecked")
-	public void start(String user, String album, BorderPane root){
+	public void start(String user, String album, BorderPane root, Stage stage1){
 		this.user_name = user;
 		this.album_name = album;
 		option = 0;
@@ -80,8 +80,14 @@ public class InsideAlbumController {
         scroll.setFitToWidth(true);
         scroll.setContent(tile);
         root.setCenter(scroll);
-        scene = new Scene(root);
-        stage.setScene(scene);
+        //stage1.setScene(null);
+       try{
+        	scene = new Scene(pane);
+        	stage.setScene(scene);
+        }catch(Exception e){
+        	//do nothing
+        }
+        //stage.setScene(scene);
 	}
 	public void add(ActionEvent e){
 		FileChooser fileChooser = new FileChooser();
@@ -270,8 +276,9 @@ public class InsideAlbumController {
                     				Stage stage = (Stage) back.getScene().getWindow();
                     				Scene scene = new Scene(root);
                     				stage.setScene(scene);
-                    				PhotoDisplayController photo = new PhotoDisplayController();
-                    				photo.start(imageFile.getPath(),user_name, album_name, root);
+                    				//PhotoDisplayController photo = new PhotoDisplayController();
+                    				PhotoDisplayController photo = loader.getController();
+                    				photo.start(imageFile.getAbsolutePath(),user_name, album_name, root);
                     				//photo.start();
                     				stage.show();
                     			}catch(IOException e1)

@@ -4,18 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class PhotoDisplayController {
@@ -24,9 +22,9 @@ public class PhotoDisplayController {
 	@FXML ImageView imageView;
 	private String user;
 	private String album;
-	private String path;
+	//private String path;
 	//private ArrayList<String> pics = new ArrayList<String>();
-	private UserAlbum userAlbum;
+	//private UserAlbum userAlbum;
 	Stage stage;
 	Scene scene;
 	BorderPane pane;
@@ -34,21 +32,28 @@ public class PhotoDisplayController {
 	{
 		this.user = user;
 		this.album = album;
-		this.path = path;
+		//this.path = path;
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
 		pane = root;
 		//System.out.println(back);
 		//stage = (Stage) back.getScene().getWindow();
-		ScrollPane scroll = new ScrollPane();
-        TilePane tile = new TilePane();
+		//ScrollPane scroll = new ScrollPane();
+        //TilePane tile = new TilePane();
 		//ImageView imageView;
+        //imageView.setImage(new Image("file:"+path));
 		imageView = createImageView(new File(path));
-		tile.getChildren().addAll(imageView);
-		scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
-        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
-        scroll.setFitToWidth(true);
-        scroll.setContent(tile);
-        pane.setCenter(scroll);
+		//tile.getChildren().addAll(imageView);
+		//scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
+        //scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
+        //scroll.setFitToWidth(true);
+        //scroll.setContent(tile);
+        //pane.setCenter(scroll);
+		//Stage stage1 = (Stage) back.getScene().getWindow();
+		GridPane g = (GridPane)pane.getCenter();
+		g.add(imageView, 1, 0);
+		//g.add(back, g.get, 0);
+		pane.setCenter(g);
+		Stage stage = (Stage) imageView.getScene().getWindow();
         if(scene != null)
         	scene.setRoot(null);
         try{
@@ -57,11 +62,12 @@ public class PhotoDisplayController {
         }catch(Exception e1){
         	
         }
+        
 	}
 	public void back(ActionEvent e)
 	{
 		try{
-			handle(e, "/View/insideAlbumPage.fxml");
+			handle(e, "/View/insideAlbumPage.fxml", this.user,this.album);
 		}catch(IOException e1)
 		{
 			//do nothing
@@ -81,7 +87,7 @@ public class PhotoDisplayController {
         }
         return imageView;
 	}
-	private void handle(ActionEvent e, String path) throws IOException
+	private void handle(ActionEvent e, String path, String user_name, String user_album) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
 		BorderPane root = (BorderPane)loader.load();
@@ -90,8 +96,9 @@ public class PhotoDisplayController {
 		stage.setScene(scene);
 		if(path.equals("/View/insideAlbumPage.fxml"))
 		{
-			InsideAlbumController inside = new InsideAlbumController();
-			inside.start(user, album, root);
+			//InsideAlbumController inside = new InsideAlbumController();
+			InsideAlbumController inside = loader.getController();
+			inside.start(this.user, this.album, root, stage);
 		}
 		stage.show();
 	}

@@ -175,7 +175,7 @@ public class NonAdminController {
 		}
 		else if(path.equals("/View/insideAlbumPage.fxml")){
 			InsideAlbumController inside = loader.getController();
-			inside.start(this.userName, selected, root);
+			inside.start(this.userName, selected, root, stage);
 		}
 		stage.show();
 	}
