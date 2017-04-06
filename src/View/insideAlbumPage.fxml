@@ -22,7 +22,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="back" onAction = "#back" mnemonicParsing="false" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
-            <Button fx:id="quit" mnemonicParsing="false" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
+            <Button fx:id="quit" onAction = "#quit" mnemonicParsing="false" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
             <Button fx:id="logout" onAction = "#logout" mnemonicParsing="false" text="logout" translateX="170.0" GridPane.columnIndex="2" />
             <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="131.0" translateX="20.0" />
          </children>

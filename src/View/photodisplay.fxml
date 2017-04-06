@@ -22,8 +22,8 @@
         </rowConstraints>
          <children>
             <ImageView fx:id = "imageView" fitHeight="235.0" fitWidth="335.0" pickOnBounds="true" preserveRatio="true" translateX="35.0" GridPane.columnIndex="1" />
-            <Button mnemonicParsing="false" text="Next" translateX="30.0" GridPane.columnIndex="2" />
-            <Button mnemonicParsing="false" text="Previous" translateX="15.0" />
+            <Button fx:id = "next" onAction = "#next" mnemonicParsing="false" text="Next" translateX="30.0" GridPane.columnIndex="2" />
+            <Button fx:id = "previous" onAction = "#previous" mnemonicParsing="false" text="Previous" translateX="15.0" />
             <Button fx:id = "back" onAction = "#back" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Back to Album" translateY="-110.0" GridPane.columnIndex="2" />
          </children>
       </GridPane>

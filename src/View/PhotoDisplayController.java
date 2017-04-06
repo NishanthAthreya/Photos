@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,36 +20,35 @@ import javafx.stage.Stage;
 public class PhotoDisplayController {
 
 	@FXML Button back;
+	@FXML Button next;
+	@FXML Button previous;
 	@FXML ImageView imageView;
 	private String user;
 	private String album;
 	//private String path;
 	//private ArrayList<String> pics = new ArrayList<String>();
-	//private UserAlbum userAlbum;
+	private UserAlbum userAlbum;
 	Stage stage;
 	Scene scene;
 	BorderPane pane;
-	public void start(String path, String user, String album, BorderPane root)
+	int index = 0;
+	boolean nextVal = true;
+	ArrayList<String> pictures = new ArrayList<String>();
+	public void start(String path, String user, String album, BorderPane root, ArrayList<String> pics)
 	{
 		this.user = user;
 		this.album = album;
 		//this.path = path;
+		userAlbum = new UserAlbum();
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
+		//System.out.println("first pic: " + pics.get(0)+ " " + "second pic: " + pics.get(1) + " " + "third pic: " + pics.get(2));
 		pane = root;
-		//System.out.println(back);
-		//stage = (Stage) back.getScene().getWindow();
-		//ScrollPane scroll = new ScrollPane();
-        //TilePane tile = new TilePane();
-		//ImageView imageView;
-        //imageView.setImage(new Image("file:"+path));
+		for (int i = 0; i<pics.size();i++)
+		{
+			pictures.add(i, pics.get(i));
+		}
+		index = pics.indexOf(path);
 		imageView = createImageView(new File(path));
-		//tile.getChildren().addAll(imageView);
-		//scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
-        //scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
-        //scroll.setFitToWidth(true);
-        //scroll.setContent(tile);
-        //pane.setCenter(scroll);
-		//Stage stage1 = (Stage) back.getScene().getWindow();
 		GridPane g = (GridPane)pane.getCenter();
 		g.add(imageView, 1, 0);
 		//g.add(back, g.get, 0);
@@ -73,6 +73,26 @@ public class PhotoDisplayController {
 			//do nothing
 		}
 	}
+	public void next(ActionEvent e)
+	{
+		try{
+			nextVal = true;
+			handle(e, "/View/photodisplay.fxml",this.user,this.album);
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}
+	public void previous(ActionEvent e)
+	{
+		try{
+			nextVal = false;
+			handle(e, "/View/photodisplay.fxml",this.user,this.album);
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}
 	private ImageView createImageView(File file)
 	{
 		ImageView imageView = null;
@@ -80,7 +100,7 @@ public class PhotoDisplayController {
         	
             final Image image = new Image(new FileInputStream(file), 105, 0, true, true);
             imageView = new ImageView(image);
-            imageView.setFitWidth(400);
+            imageView.setFitWidth(250);
             imageView.setPreserveRatio(true);
 		}catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -99,6 +119,27 @@ public class PhotoDisplayController {
 			//InsideAlbumController inside = new InsideAlbumController();
 			InsideAlbumController inside = loader.getController();
 			inside.start(this.user, this.album, root, stage);
+		}
+		if (path.equals(("/View/photodisplay.fxml"))&&nextVal==true)
+		{
+			
+			PhotoDisplayController photoDisp = loader.getController();
+			try{
+			photoDisp.start(pictures.get(index+1), user_name, user_album, root, pictures);
+			}catch(IndexOutOfBoundsException e1)
+			{
+				// put alert here saying no more next!!!!!
+			}
+		}
+		if (path.equals(("/View/photodisplay.fxml"))&&nextVal==false)
+		{
+			PhotoDisplayController photoDisp = loader.getController();
+			try{
+			photoDisp.start(pictures.get(index-1), user_name, user_album, root, pictures);
+			}catch(IndexOutOfBoundsException e1)
+			{
+				// put alert here saying no more previous!!!!!
+			}
 		}
 		stage.show();
 	}
