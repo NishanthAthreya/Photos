@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PhotoDisplayController {
@@ -38,7 +40,7 @@ public class PhotoDisplayController {
 	{
 		this.user = user;
 		this.album = album;
-		this.index = pics.indexOf(new Picture(path, "sample"));
+		this.index = pics.indexOf(new Picture(path, " "));
 		//this.path = path;
 		userAlbum = new UserAlbum();
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
@@ -48,13 +50,26 @@ public class PhotoDisplayController {
 		{
 			pictures.add(i, pics.get(i));
 		}
+		String cap = "";
+		for (int i = 0; i<pictures.size();i++)
+		{
+			if (pictures.get(i).getPath().equals(path))
+			{
+				cap = pictures.get(i).getCaption();
+			}
+		}
+		VBox vbox = new VBox();
+		Label l = new Label("Caption: " + cap);
 		//index = pics.indexOf(path);
 		imageView = createImageView(new File(path));
+		l.setGraphic(imageView);
+		//hbox.setSpacing(10);
+		vbox.getChildren().add(l);
 		GridPane g = (GridPane)pane.getCenter();
-		g.add(imageView, 1, 0);
+		g.add(vbox, 1, 0);
 		//g.add(back, g.get, 0);
 		pane.setCenter(g);
-		Stage stage = (Stage) imageView.getScene().getWindow();
+		Stage stage = (Stage) vbox.getScene().getWindow();
         if(scene != null)
         	scene.setRoot(null);
         try{
@@ -74,7 +89,7 @@ public class PhotoDisplayController {
 			//do nothing
 		}
 	}
-	public void next(ActionEvent e)
+	/*public void next(ActionEvent e)
 	{
 		if(index + 1 < pictures.size()){
 			Picture pic = pictures.get(index + 1);
@@ -130,7 +145,27 @@ public class PhotoDisplayController {
 		//{
 			//do nothing
 		//}
-	}
+	}*/
+	public void next(ActionEvent e)
+		{
+			try{
+				nextVal = true;
+				handle(e, "/View/photodisplay.fxml",this.user,this.album);
+			}catch(IOException e1)
+			{
+				//do nothing
+			}
+		}
+		public void previous(ActionEvent e)
+		{
+			try{
+				nextVal = false;
+				handle(e, "/View/photodisplay.fxml",this.user,this.album);
+			}catch(IOException e1)
+			{
+				//do nothing
+			}
+		}
 	private ImageView createImageView(File file)
 	{
 		ImageView imageView = null;

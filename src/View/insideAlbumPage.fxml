@@ -53,7 +53,7 @@
                   <Button mnemonicParsing="false" text="Caption" translateX="50.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
-            <TextField promptText=" Edit/Add caption, and click caption button after" />
+            <TextField fx:id = "captionText" promptText=" Enter caption or tag here, and select either caption/add tag in the choicebox after, and then click the picture." />
          </children>
       </GridPane>
    </bottom>

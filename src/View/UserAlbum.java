@@ -33,7 +33,7 @@ public class UserAlbum implements Serializable{
 		}
 	}
 	public void addPic(String user, String album, String pic){
-		Picture picture = new Picture(pic, "sample");
+		Picture picture = new Picture(pic, "");
 		if(albums.get(user) != null){//user exists
 			if(albums.get(user).containsKey(album)){//album exists
 				if(albums.get(user).get(album) == null){//no pics in album
@@ -58,7 +58,7 @@ public class UserAlbum implements Serializable{
 	public void deletePic(String user, String album, String pic){
 		if(albums.containsKey(user)){
 			if(albums.get(user).containsKey(album) && albums.get(user).get(album) != null){
-				albums.get(user).get(album).remove(new Picture(pic, "sample"));
+				albums.get(user).get(album).remove(new Picture(pic, ""));
 			}
 		}
 	}

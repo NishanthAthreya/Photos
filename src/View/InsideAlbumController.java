@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -39,6 +40,7 @@ public class InsideAlbumController {
 	@FXML Button logout;
 	@FXML Button view;
 	@FXML Button quit;
+	@FXML TextField captionText;
 	@SuppressWarnings("rawtypes")
 	@FXML ChoiceBox choice;
 	private UserAlbum userAlbum;
@@ -55,7 +57,7 @@ public class InsideAlbumController {
 		this.album_name = album;
 		option = 0;
 		//System.out.println(choice);
-		choice.setItems(FXCollections.observableArrayList("Options", "Copy", "View", "Remove", "Move"));
+		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy", "Add tag"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
@@ -82,7 +84,7 @@ public class InsideAlbumController {
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
-        	hbox= createHbox(new File(pics.get(i).getPath()), new Label("Search"));
+        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
             tile.getChildren().addAll(hbox);
         }
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -140,11 +142,11 @@ public class InsideAlbumController {
         if(pics == null)
         	return;
         for(int i = 0;i < pics.size();i++){
-        	System.out.println(pics.get(i));
+        	//System.out.println(pics.get(i));
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
-        	hbox= createHbox(new File(pics.get(i).getPath()), new Label("Search"));
+        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
             tile.getChildren().addAll(hbox);
         }
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -238,6 +240,11 @@ public class InsideAlbumController {
 			LoginController login = loader.getController();
 			login.start();
 		}
+		if (path.equals("/View/insideAlbumPage.fxml"))
+		{
+			InsideAlbumController ins = loader.getController();
+			ins.start(user_name, album_name, root, stage);
+		}
 		stage.show();
 	}
 	private void saveAlbums(){
@@ -289,6 +296,25 @@ public class InsideAlbumController {
 	                	
 	                    if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
 	                    	if(mouseEvent.getClickCount() ==1){
+	                    		if (option == 1)	//caption
+	                    		{
+	                    			//System.out.println(captionText.getText());
+	                    			//Picture pic = new Picture(imageFile.getAbsolutePath(), " ");
+	                    			for (int i = 0; i<pics.size();i++)
+	                    			{
+	                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath()))
+	                    				{
+	                    					//System.out.println("entered if " + i);
+	                    					pics.get(i).setCaption(captionText.getText());;
+	                    					break;
+	                    				}
+	                    			}
+	                    			saveAlbums();
+	                    			
+	                    			//InsideAlbumController ins = new InsideAlbumController();
+	                    			//ins.start(user_name, album_name, pane, stage);
+	                    			//pic.setCaption(captionText.getText());
+	                    		}
 	                    		if(option == 2)	
 	                    		{	
 	                    			//have to go to new screen (photo display screen)
@@ -347,6 +373,18 @@ public class InsideAlbumController {
 	                    	        saveAlbums();
 	                    	        //stage.setScene(scene);
 	                    			
+	                    		}
+	                    		if(option == 6){ //Adding tag
+	                    			for (int i = 0; i<pics.size();i++)
+	                    			{
+	                    				System.out.println(pics.get(i).getTags());
+	                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath()))
+	                    				{
+	                    					pics.get(i).addTag(captionText.getText());
+	                    					break;
+	                    				}
+	                    			}
+	                    			saveAlbums();
 	                    		}
 	                    	}
 	                        if(mouseEvent.getClickCount() == 2){
@@ -407,6 +445,10 @@ public class InsideAlbumController {
                 	
                     if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     	if(mouseEvent.getClickCount() ==1){
+                    		if(option == 1)	//caption
+                    		{
+                    			
+                    		}
                     		if(option == 2)	//for now this code is for viewing but option 2 is actually for copy
                     		{	
                     			//have to go to new screen (photo display screen)
