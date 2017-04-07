@@ -1,6 +1,9 @@
 package View;
 
-public class Picture {
+import java.io.Serializable;
+
+public class Picture implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String path;
 	private String caption;
 	public Picture(String path, String caption)
@@ -23,5 +26,13 @@ public class Picture {
 	public String toString()
 	{
 		return path;
+	}
+	public boolean equals(Object o){
+		if(o instanceof Picture){
+			Picture pic = (Picture)o;
+			if(this.path.equals(pic.getPath()))
+				return true;
+		}
+		return false;
 	}
 }

@@ -44,7 +44,7 @@ public class InsideAlbumController {
 	private UserAlbum userAlbum;
 	private String user_name,album_name;
 	private static final String filename = "userAlbums.dat";
-	private ArrayList<String> pics;
+	private ArrayList<Picture> pics;
 	private int option;
 	Stage stage;
 	Scene scene;
@@ -82,7 +82,7 @@ public class InsideAlbumController {
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
-        	hbox= createHbox(new File(pics.get(i)));
+        	hbox= createHbox(new File(pics.get(i).getPath()), new Label("Search"));
             tile.getChildren().addAll(hbox);
         }
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -144,7 +144,7 @@ public class InsideAlbumController {
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
-        	hbox= createHbox(new File(pics.get(i)));
+        	hbox= createHbox(new File(pics.get(i).getPath()), new Label("Search"));
             tile.getChildren().addAll(hbox);
         }
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -267,10 +267,10 @@ public class InsideAlbumController {
 			userAlbum = new UserAlbum();
 		}
 	}
-	private HBox createHbox(final File imageFile)
+	private HBox createHbox(final File imageFile, Label l)
 	{
 		HBox hbox = new HBox();
-		Label l = new Label("search");
+		//Label l = new Label("search");
 		  ImageView imageView = null;
 	        try {
 	        	
@@ -328,7 +328,7 @@ public class InsideAlbumController {
 	                    	        	ImageView imageView;
 	                    	        	HBox hbox;
 	                    	           // imageView = createImageView(new File(pics.get(i)));
-	                    	        	hbox= createHbox(new File(pics.get(i)));
+	                    	        	hbox= createHbox(new File(pics.get(i).getPath()), l);
 	                    	            tile.getChildren().addAll(hbox);
 	                    	        }
 	                    	        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -444,7 +444,7 @@ public class InsideAlbumController {
                     	        for(int i = 0;i < pics.size();i++){
                     	        	System.out.println(pics.get(i));
                     	        	ImageView imageView;
-                    	            imageView = createImageView(new File(pics.get(i)));
+                    	            imageView = createImageView(new File(pics.get(i).getPath()));
                     	            tile.getChildren().addAll(imageView);
                     	        }
                     	        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal

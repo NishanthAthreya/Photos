@@ -33,11 +33,12 @@ public class PhotoDisplayController {
 	BorderPane pane;
 	int index = 0;
 	boolean nextVal = true;
-	ArrayList<String> pictures = new ArrayList<String>();
-	public void start(String path, String user, String album, BorderPane root, ArrayList<String> pics)
+	ArrayList<Picture> pictures = new ArrayList<Picture>();
+	public void start(String path, String user, String album, BorderPane root, ArrayList<Picture> pics)
 	{
 		this.user = user;
 		this.album = album;
+		this.index = pics.indexOf(new Picture(path, "sample"));
 		//this.path = path;
 		userAlbum = new UserAlbum();
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
@@ -47,7 +48,7 @@ public class PhotoDisplayController {
 		{
 			pictures.add(i, pics.get(i));
 		}
-		index = pics.indexOf(path);
+		//index = pics.indexOf(path);
 		imageView = createImageView(new File(path));
 		GridPane g = (GridPane)pane.getCenter();
 		g.add(imageView, 1, 0);
@@ -75,23 +76,60 @@ public class PhotoDisplayController {
 	}
 	public void next(ActionEvent e)
 	{
-		try{
-			nextVal = true;
-			handle(e, "/View/photodisplay.fxml",this.user,this.album);
-		}catch(IOException e1)
-		{
-			//do nothing
+		if(index + 1 < pictures.size()){
+			Picture pic = pictures.get(index + 1);
+			index++;
+			imageView = createImageView(new File(pic.getPath()));
+			GridPane g = (GridPane)pane.getCenter();
+			g.add(imageView, 1, 0);
+			//g.add(back, g.get, 0);
+			pane.setCenter(g);
+			Stage stage = (Stage) imageView.getScene().getWindow();
+	        if(scene != null)
+	        	scene.setRoot(null);
+	        try{
+	        	scene = new Scene(pane);
+	        	stage.setScene(scene);
+	        }catch(Exception e1){
+	        	
+	        }
 		}
+		//try{
+			//nextVal = true;
+			//handle(e, "/View/photodisplay.fxml",this.user,this.album);
+		//}catch(IOException e1)
+		//{
+			//do nothing
+		//}
 	}
 	public void previous(ActionEvent e)
 	{
-		try{
-			nextVal = false;
-			handle(e, "/View/photodisplay.fxml",this.user,this.album);
-		}catch(IOException e1)
-		{
+		//try{
+			//nextVal = false;
+			//handle(e, "/View/photodisplay.fxml",this.user,this.album);
+			if(index - 1 >= 0){
+				Picture pic = pictures.get(index - 1);
+				index--;
+				imageView = createImageView(new File(pic.getPath()));
+				GridPane g = (GridPane)pane.getCenter();
+				g.add(imageView, 1, 0);
+				//g.add(back, g.get, 0);
+				pane.setCenter(g);
+				Stage stage = (Stage) imageView.getScene().getWindow();
+		        if(scene != null)
+		        	scene.setRoot(null);
+		        try{
+		        	scene = new Scene(pane);
+		        	stage.setScene(scene);
+		        }catch(Exception e1){
+		        	
+		        }
+			}
+			
+		//}catch(IOException e2)
+		//{
 			//do nothing
-		}
+		//}
 	}
 	private ImageView createImageView(File file)
 	{
@@ -125,7 +163,7 @@ public class PhotoDisplayController {
 			
 			PhotoDisplayController photoDisp = loader.getController();
 			try{
-			photoDisp.start(pictures.get(index+1), user_name, user_album, root, pictures);
+			photoDisp.start(pictures.get(index+1).getPath(), user_name, user_album, root, pictures);
 			}catch(IndexOutOfBoundsException e1)
 			{
 				// put alert here saying no more next!!!!!
@@ -135,7 +173,7 @@ public class PhotoDisplayController {
 		{
 			PhotoDisplayController photoDisp = loader.getController();
 			try{
-			photoDisp.start(pictures.get(index-1), user_name, user_album, root, pictures);
+			photoDisp.start(pictures.get(index-1).getPath(), user_name, user_album, root, pictures);
 			}catch(IndexOutOfBoundsException e1)
 			{
 				// put alert here saying no more previous!!!!!
