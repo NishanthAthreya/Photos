@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -41,6 +43,8 @@ public class InsideAlbumController {
 	@FXML Button view;
 	@FXML Button quit;
 	@FXML TextField captionText;
+	@FXML TextField tagname;
+	@FXML TextField tagvalue;
 	@SuppressWarnings("rawtypes")
 	@FXML ChoiceBox choice;
 	private UserAlbum userAlbum;
@@ -57,7 +61,7 @@ public class InsideAlbumController {
 		this.album_name = album;
 		option = 0;
 		//System.out.println(choice);
-		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy", "Add tag"));
+		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy", "Add tag", "Remove tag"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
@@ -66,7 +70,7 @@ public class InsideAlbumController {
 		openAlbums();
 		pane = root;
 		//System.out.println(add);
-		Label l = new Label("wow");
+		//Label l = new Label("wow");
 		//l.setPrefSize(20,20);
 		stage = (Stage) add.getScene().getWindow();
 		ScrollPane scroll = new ScrollPane();
@@ -79,14 +83,27 @@ public class InsideAlbumController {
         pics = userAlbum.getPics(user_name, album_name);
         if(pics == null)
         	return;
+      
+        if(user.equals("stock"))
+        {
+        	 for(int i = 0;i < pics.size();i++){
+             	//System.out.println(pics.get(i));
+             	ImageView imageView;
+             	HBox hbox;
+                // imageView = createImageView(new File(pics.get(i)));
+             	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+                 tile.getChildren().addAll(hbox);
+             }
+        }
         for(int i = 0;i < pics.size();i++){
-        	System.out.println(pics.get(i));
+        	//System.out.println(pics.get(i));
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
         	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
             tile.getChildren().addAll(hbox);
         }
+        
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
         scroll.setFitToWidth(true);
@@ -119,6 +136,7 @@ public class InsideAlbumController {
 		File chosenFile = fileChooser.showOpenDialog(null);
 		//Make sure a file was selected, if not return default
 		String path;
+		
 		if(chosenFile != null) {
 		    path = chosenFile.getPath();
 		   // System.out.println(path);
@@ -146,7 +164,13 @@ public class InsideAlbumController {
         	ImageView imageView;
         	HBox hbox;
            // imageView = createImageView(new File(pics.get(i)));
+        	long lastModif = new File(pics.get(i).getPath()).lastModified();
+    		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    		String modif = sdf.format(lastModif);
+    		pics.get(i).setDateAndTime(modif);
+    		pics.get(i).calendar(modif);
         	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+        	//System.out.println(modif);
             tile.getChildren().addAll(hbox);
         }
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -221,6 +245,15 @@ public class InsideAlbumController {
 	                		}
 	                	}
 	                }*/
+	/*public void search(ActionEvent e)
+	{
+		try{
+			handle(e, "/View/searchedPhotos.fxml");
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}*/
 	private void handle(ActionEvent e, String path) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -245,6 +278,26 @@ public class InsideAlbumController {
 			InsideAlbumController ins = loader.getController();
 			ins.start(user_name, album_name, root, stage);
 		}
+		/*if (path.equals("/View/searchedPhotos.fxml"))
+		{
+			SearchedPhotosController search = loader.getController();
+			/*ArrayList<Picture> result = new ArrayList<Picture>();
+			for (int i = 0; i< pics.size(); i++)	//traversing through all the pictures
+			{
+				if (pics.get(i).getTags()!=null && pics.get(i).getTags().containsKey(tagname.getText()))
+				{
+					HashMap<String,String> pictags = pics.get(i).getTags();
+					for (HashMap.Entry<String, String> entry : pictags.entrySet())
+					{
+						if (entry.getKey().equals(tagname.getText())&&entry.getValue().equals(tagvalue.getText()))
+						{
+							result.add(pics.get(i));
+						}
+					}
+				}
+			}
+			search.start(pics);
+		}*/
 		stage.show();
 	}
 	private void saveAlbums(){
@@ -260,7 +313,6 @@ public class InsideAlbumController {
 		}
 		
 	}
-	
 	private void openAlbums(){
 		try{
 			@SuppressWarnings("resource")
@@ -298,18 +350,63 @@ public class InsideAlbumController {
 	                    	if(mouseEvent.getClickCount() ==1){
 	                    		if (option == 1)	//caption
 	                    		{
+	                    			ScrollPane scroll = new ScrollPane();
+	                    	        TilePane tile = new TilePane();
 	                    			//System.out.println(captionText.getText());
 	                    			//Picture pic = new Picture(imageFile.getAbsolutePath(), " ");
+	                    	   
 	                    			for (int i = 0; i<pics.size();i++)
 	                    			{
-	                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath()))
-	                    				{
+	                    				//System.out.println(imageFile.getAbsolutePath()+" and "+pics.get(i).getPath(user_name,i)+" i is "+i);
+	                    				//if(imageFile.getAbsolutePath().contains(pics.get(i).getPath(user_name,i))){
+	                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath())){
+	                    				
 	                    					//System.out.println("entered if " + i);
 	                    					pics.get(i).setCaption(captionText.getText());;
 	                    					break;
 	                    				}
 	                    			}
 	                    			saveAlbums();
+	                    			 if(pics == null)
+		                    	        	System.out.println("oh");
+		                    	        if(pics == null)
+		                    	        	return;
+		                    	   
+		                    	        for(int i = 0;i < pics.size();i++){
+		                    	        	//System.out.println(pics.get(i));
+		                    	        	//System.out.println(pics.get(i).getCaption());
+		                    	        	ImageView imageView;
+		                    	        	HBox hbox;
+		                    	           // imageView = createImageView(new File(pics.get(i)));
+		                    	        	/*if (user_name.equals("stock"))
+		                    	        	{
+		                    	        		hbox= createHbox(new File(pics.get(i).getPath(user_name,i)), new Label(pics.get(i).getCaption()));
+		                    	        	}*/
+		                    	        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+		                    	        	//System.out.println(hbox);
+		                    	        	//System.out.println(pics.get(i).getCaption());
+		                    	            tile.getChildren().addAll(hbox);
+		                    	        }
+		                    	        /*try{
+		                    	        scene = new Scene(pane);
+	                    	        	stage.setScene(scene);
+		                    	        }catch(Exception e1)
+		                    	        {
+		                    	        	
+		                    	        }*/
+		                    	      /*  scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
+		                    	        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
+		                    	        scroll.setFitToWidth(true);
+		                    	        scroll.setContent(tile);
+		                    	        pane.setCenter(scroll);
+		                    	        if(scene !=null)
+		                    	        	scene.setRoot(null);
+		                    	        try{
+		                    	        	scene = new Scene(pane);
+		                    	        	stage.setScene(scene);
+		                    	        }catch(Exception e){
+		                    	        	
+		                    	        }*/
 	                    			
 	                    			//InsideAlbumController ins = new InsideAlbumController();
 	                    			//ins.start(user_name, album_name, pane, stage);
@@ -350,11 +447,11 @@ public class InsideAlbumController {
 	                    	        if(pics == null)
 	                    	        	return;
 	                    	        for(int i = 0;i < pics.size();i++){
-	                    	        	System.out.println(pics.get(i));
+	                    	        	//System.out.println(pics.get(i));
 	                    	        	ImageView imageView;
 	                    	        	HBox hbox;
 	                    	           // imageView = createImageView(new File(pics.get(i)));
-	                    	        	hbox= createHbox(new File(pics.get(i).getPath()), l);
+	                    	        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
 	                    	            tile.getChildren().addAll(hbox);
 	                    	        }
 	                    	        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
@@ -375,14 +472,47 @@ public class InsideAlbumController {
 	                    			
 	                    		}
 	                    		if(option == 6){ //Adding tag
+	                    			//System.out.println(pics.get(1).getTags().get(0));
+	                    			//System.out.println(pics.get(0).getTags().containsKey("name"));
+	                    			
+	                    			HashMap<String,String> tags = new HashMap<String,String>();
+	                    			/*for (HashMap.Entry<String, String> entry : pics.get(0).getTags().entrySet())
+	                    			{
+	                    			    System.out.println(entry.getKey() + "/" + entry.getValue());
+	                    			}*/
 	                    			for (int i = 0; i<pics.size();i++)
 	                    			{
-	                    				System.out.println(pics.get(i).getTags());
+	                    				//System.out.println(pics.get(i).getTags());
 	                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath()))
 	                    				{
-	                    					pics.get(i).addTag(captionText.getText());
+	                    					if (pics.get(i).getTags() == null)
+	                    					{
+	                    					tags.put(tagname.getText(), tagvalue.getText());
+	                    					pics.get(i).setTags(tags);
+	                    					}
+	                    					else
+	                    					{
+	                    					//System.out.println("entered");
+	                    					pics.get(i).getTags().put(tagname.getText(),tagvalue.getText());
+	                    					}
 	                    					break;
 	                    				}
+	                    			}
+	                    		}
+	                    			if (option == 7)	//Removing tag
+	                    			{
+	                    				//System.out.println("entering option 7");
+	                    				for (int i = 0; i<pics.size();i++)
+		                    			{
+		                    				//System.out.println(pics.get(i).getTags());
+	                    					//System.out.println("Path: " + pics.get(i).getPath());
+		                    				if (pics.get(i).getPath().equals(imageFile.getAbsolutePath()))
+		                    				{
+		                    					//System.out.println("entered delete");
+		                    					pics.get(i).getTags().remove(tagname.getText(), tagvalue.getText());
+		                    					break;
+		                    				}
+		                    			}
 	                    			}
 	                    			saveAlbums();
 	                    		}
@@ -413,11 +543,11 @@ public class InsideAlbumController {
 
 	                        }
 	                    }
-	                }
-	            });
+	                });
 	        } catch (FileNotFoundException ex) {
 	            ex.printStackTrace();
 	        }
+	      //  System.out.println(l.getText());
 	        l.setGraphic(imageView);
 	        hbox.setSpacing(10);
 	        hbox.getChildren().add((l));

@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.InsideAlbumController">
    <top>
       <GridPane BorderPane.alignment="CENTER">
@@ -21,9 +20,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="back" onAction = "#back" mnemonicParsing="false" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
-            <Button fx:id="quit" onAction = "#quit" mnemonicParsing="false" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
-            <Button fx:id="logout" onAction = "#logout" mnemonicParsing="false" text="logout" translateX="170.0" GridPane.columnIndex="2" />
+            <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
+            <Button fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
+            <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" text="logout" translateX="170.0" GridPane.columnIndex="2" />
             <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="131.0" translateX="20.0" />
          </children>
       </GridPane>
@@ -49,11 +48,12 @@
               </rowConstraints>
                <children>
                   
-                  <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add Photo" translateX="-40.0" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" text="Caption" translateX="50.0" GridPane.columnIndex="2" />
+                  <Button fx:id="add" mnemonicParsing="false" onAction="#add" text="Add Photo" translateX="-135.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="tagname" promptText="Enter Tag Name" translateX="200.0" />
+                  <TextField fx:id="tagvalue" promptText="Enter Tag Value" translateX="400.0" />
                </children>
             </GridPane>
-            <TextField fx:id = "captionText" promptText=" Enter caption or tag here, and select either caption/add tag in the choicebox after, and then click the picture." />
+            <TextField fx:id="captionText" promptText=" Enter caption or tag here, and select either caption/add tag in the choicebox after, and then click the picture." />
          </children>
       </GridPane>
    </bottom>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SearchedPhotosController">
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="260.0" minWidth="10.0" prefWidth="256.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="257.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="83.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id = "startDate" promptText="Enter Start Date: MM/DD/YYYY HH:mm:ss" />
+            <TextField fx:id = "endDate" promptText="Enter End Date: MM/DD/YYYY HH:mm:ss" GridPane.columnIndex="1" />
+            <TextField fx:id="tagname" promptText="Enter tag name to be added as a search filter" GridPane.rowIndex="1" />
+            <TextField fx:id="tagvalue" promptText="Enter tag value to be added as a search filter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="back" onAction = "#back" mnemonicParsing="false" text="Back" translateX="20.0" GridPane.columnIndex="2" />
+            <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add " translateX="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </top>
+   <center>
+      <GridPane prefHeight="329.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="307.0" minHeight="10.0" prefHeight="296.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="165.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ListView fx:id="tags" prefHeight="200.0" prefWidth="200.0" />
+            <Button fx:id="search" onAction = "#search" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Search" translateX="245.0" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

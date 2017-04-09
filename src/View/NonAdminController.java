@@ -36,6 +36,7 @@ public class NonAdminController {
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	//private static final String filename= "albums.dat";
 	private static final String filename= "userAlbums.dat";
+	//private static final String
 	private UserAlbum userAlbum;
 	private String userName;
 	//private ArrayList<String> albums;
@@ -95,6 +96,15 @@ public class NonAdminController {
 			//give an alert saying album already exists!
 		}
 	}
+	public void search(ActionEvent e)
+	{
+		try{
+			handle(e,"/View/searchphotos.fxml");
+		}catch(IOException e1)
+		{
+			//do nothing
+		}
+	}
 	public void logout(ActionEvent e){
 		save();
 		try{
@@ -135,6 +145,19 @@ public class NonAdminController {
 			//problem
 		}
 	}
+	/*private void save2(String filename)
+	{
+		try {
+			@SuppressWarnings("resource")
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(filename));
+			oos.writeObject(userAlbum);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			//problem
+		}
+	}*/
 	/*
 	@SuppressWarnings("unchecked")
 	private void open(){
@@ -176,6 +199,13 @@ public class NonAdminController {
 		else if(path.equals("/View/insideAlbumPage.fxml")){
 			InsideAlbumController inside = loader.getController();
 			inside.start(this.userName, selected, root, stage);
+		}
+		else if(path.equals("/View/searchphotos.fxml"))
+		{
+			SearchedPhotosController search = loader.getController();
+			//search.setUser(userName);
+			//save2("myalbums.dat");
+			search.start(userAlbum,userName);
 		}
 		stage.show();
 	}

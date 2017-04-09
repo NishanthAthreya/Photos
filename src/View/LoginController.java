@@ -38,6 +38,16 @@ public class LoginController {
     //do nothing
    }
   }
+ /* else if (text.getText().equalsIgnoreCase("stock"))
+  {
+	  try{
+		  handle(e,"/View/stockpage.fxml");
+	  }
+	  catch (IOException e1)
+	  {
+		  //do nothing
+	  }
+  }*/
   else{
 	  try{
 	  for(int i = 0;i < users.size();i++){
@@ -70,12 +80,22 @@ public class LoginController {
 	  AdminController adminController = loader.getController();
 	  adminController.start();
   }
+  /*if (text.getText().equalsIgnoreCase("stock") && path.equals("/View/nonadminpage.fxml"))
+  {
+	  StockController stock = loader.getController();
+	  stock.start();
+  }*/
   if (path.equals("/View/nonadminpage.fxml"))
   {
 	  NonAdminController nonadmin = loader.getController();
 	  nonadmin.start(text.getText());
 	  //non admin controller stuff
   }
+  /*if (path.equals("/View/stockpage.fxml"))
+  {
+	  StockController stock = loader.getController();
+	  stock.start();
+  }*/
   stage.show();
   
  }

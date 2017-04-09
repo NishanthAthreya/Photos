@@ -14,6 +14,7 @@ public class UserAlbum implements Serializable{
 	public UserAlbum(){
 		//albums = new HashMap<String, HashMap<String, ArrayList<String>>>();
 		albums = new HashMap<String, HashMap<String, ArrayList<Picture>>>();
+		//albums.put("stock", value)
 	}
 	public void addUser(String user){
 		albums.put(user, null);//adding user

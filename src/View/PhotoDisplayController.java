@@ -5,13 +5,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -24,7 +29,12 @@ public class PhotoDisplayController {
 	@FXML Button back;
 	@FXML Button next;
 	@FXML Button previous;
+	@FXML Button addtag;
+	@FXML Button removetag;
+	@FXML TextField tagname;
+	@FXML TextField tagvalue;
 	@FXML ImageView imageView;
+	@FXML ListView tags;
 	private String user;
 	private String album;
 	//private String path;
@@ -36,11 +46,20 @@ public class PhotoDisplayController {
 	int index = 0;
 	boolean nextVal = true;
 	ArrayList<Picture> pictures = new ArrayList<Picture>();
+	private ObservableList<String> obsList;
 	public void start(String path, String user, String album, BorderPane root, ArrayList<Picture> pics)
 	{
+		obsList = FXCollections.observableArrayList();
 		this.user = user;
 		this.album = album;
 		this.index = pics.indexOf(new Picture(path, " "));
+		HashMap<String,String> pictags = pics.get(index).getTags();
+		for (HashMap.Entry<String, String> entry : pictags.entrySet())	//adding tags to listview
+		{
+			obsList.add(entry.getKey()+ ": " + entry.getValue());
+		   // System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
+		tags.setItems(obsList);
 		//this.path = path;
 		userAlbum = new UserAlbum();
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
@@ -51,15 +70,21 @@ public class PhotoDisplayController {
 			pictures.add(i, pics.get(i));
 		}
 		String cap = "";
+		String date = "";
 		for (int i = 0; i<pictures.size();i++)
 		{
 			if (pictures.get(i).getPath().equals(path))
 			{
 				cap = pictures.get(i).getCaption();
+				date = pictures.get(i).getDateAndTime();
+				//System.out.println(pictures.get(i).getTags().get(0));
 			}
 		}
+		
 		VBox vbox = new VBox();
-		Label l = new Label("Caption: " + cap);
+		Label l = new Label("Caption: " + cap + "\nDate and Time taken: \n" + date);
+		l.setTranslateY(50);
+		
 		//index = pics.indexOf(path);
 		imageView = createImageView(new File(path));
 		l.setGraphic(imageView);
@@ -79,6 +104,13 @@ public class PhotoDisplayController {
         	
         }
         
+	}
+	public void addTag(ActionEvent e)
+	{
+		HashMap<String,String> pictags = pictures.get(index).getTags();
+		pictags.put(tagname.getText(), tagvalue.getText());
+		pictures.get(index).setTags(pictags);
+		obsList.add(tagname.getText()+": " + tagvalue.getText());
 	}
 	public void back(ActionEvent e)
 	{

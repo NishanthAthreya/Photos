@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "View.PhotoDisplayController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.PhotoDisplayController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="86.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="407.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="397.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.0" minWidth="10.0" prefWidth="113.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="290.0" minHeight="10.0" prefHeight="290.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="117.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="290.0" minHeight="10.0" prefHeight="268.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="136.0" minHeight="10.0" prefHeight="132.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id = "imageView" fitHeight="235.0" fitWidth="335.0" pickOnBounds="true" preserveRatio="true" translateX="35.0" GridPane.columnIndex="1" />
-            <Button fx:id = "next" onAction = "#next" mnemonicParsing="false" text="Next" translateX="30.0" GridPane.columnIndex="2" />
-            <Button fx:id = "previous" onAction = "#previous" mnemonicParsing="false" text="Previous" translateX="15.0" />
-            <Button fx:id = "back" onAction = "#back" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Back to Album" translateY="-110.0" GridPane.columnIndex="2" />
+            <ImageView fx:id="imageView" fitHeight="235.0" fitWidth="335.0" pickOnBounds="true" preserveRatio="true" translateX="35.0" GridPane.columnIndex="1" />
+            <Button fx:id="next" mnemonicParsing="false" onAction="#next" text="Next" translateX="30.0" GridPane.columnIndex="2" />
+            <Button fx:id="previous" mnemonicParsing="false" onAction="#previous" text="Previous" translateX="15.0" />
+            <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="102.0" text="Back to Album" translateY="-110.0" GridPane.columnIndex="2" />
+            <ListView fx:id="tags" prefHeight="121.0" prefWidth="103.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id = "addtag" onAction = "#addTag" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Add Tag" translateY="-20.0" GridPane.rowIndex="1" />
+            <Button fx:id = "removetag" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Remove Tag" translateY="30.0" GridPane.rowIndex="1" />
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id = "tagname" promptText="Enter Tag Name" />
+                  <TextField fx:id = "tagvalue" promptText="Enter Tag Value" translateX="200.0" />
+               </children>
+            </GridPane>
          </children>
       </GridPane>
    </center>
