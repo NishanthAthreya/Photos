@@ -14,7 +14,7 @@ public class Picture implements Serializable {
 	int hour;
 	int minute;
 	int second;
-	String dateAndTime;
+	String dateAndTime = "";
 	Calendar cal = Calendar.getInstance();
 	//ArrayList<String> tags = new ArrayList<String>();
 	HashMap<String,String> tags = new HashMap<String,String>();
@@ -23,6 +23,7 @@ public class Picture implements Serializable {
 		
 		this.path = path;
 		this.caption = caption;
+		
 	}
 	public String getPath(String user, int picNum)
 	{

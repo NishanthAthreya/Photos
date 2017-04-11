@@ -111,6 +111,40 @@ public class NonAdminController {
 			//give an alert saying album already exists!
 		}
 	}
+	public void delete(ActionEvent e)
+	{
+		if(selected!=null)
+		{
+			userAlbum.deleteAlbum(userName, selected);
+			obsList.remove(selected);
+			save();
+		}
+	}
+	public void rename(ActionEvent e)
+	{
+		if(selected!=null)
+		{
+			if(album.getText().equals(""))
+			{
+				album.setText(selected);
+			}
+			else if(album.getText().length()>0 && !(album.getText().equals(selected)))
+			{
+				String s = selected;
+				String a = album.getText();
+				create(e);
+				userAlbum.addAlbum(userName, a);
+				ArrayList<Picture> pics = userAlbum.getPics(userName, selected);
+				for (int i = 0; i<pics.size();i++)
+				{
+					userAlbum.addPic(userName, a, pics.get(i).getPath());
+				}
+				userAlbum.deleteAlbum(userName, s);
+				obsList.remove(s);
+			}
+			save();
+		}
+	}
 	public void search(ActionEvent e)
 	{
 		try{

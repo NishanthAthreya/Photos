@@ -1,6 +1,8 @@
 package View;
 
+import java.io.File;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +36,14 @@ public class UserAlbum implements Serializable{
 		}
 	}
 	public void addPic(String user, String album, String pic){
+		long lastModif = new File(pic).lastModified();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		String modif = sdf.format(lastModif);
+		//Picture p = new Picture(pic, "");
+	
 		Picture picture = new Picture(pic, "");
+		picture.setDateAndTime(modif);
+		picture.calendar(modif);
 		if(albums.get(user) != null){//user exists
 			if(albums.get(user).containsKey(album)){//album exists
 				if(albums.get(user).get(album) == null){//no pics in album

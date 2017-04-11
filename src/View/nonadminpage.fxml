@@ -24,8 +24,8 @@
               </rowConstraints>
                <children>
                   <Button fx:id = "create" onAction = "#create" mnemonicParsing="false" text="Create Album" translateX="60.0" />
-                  <Button fx:id = "rename" mnemonicParsing="false" text="Rename Album" translateX="50.0" GridPane.columnIndex="1" />
-                  <Button fx:id = "delete" mnemonicParsing="false" text="Delete Selected Album" translateX="30.0" GridPane.columnIndex="2" />
+                  <Button fx:id = "rename" onAction = "#rename" mnemonicParsing="false" text="Rename Album" translateX="50.0" GridPane.columnIndex="1" />
+                  <Button fx:id = "delete" onAction = "#delete" mnemonicParsing="false" text="Delete Selected Album" translateX="30.0" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </bottom>
