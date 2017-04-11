@@ -26,11 +26,11 @@ public class Picture implements Serializable {
 	}
 	public String getPath(String user, int picNum)
 	{
-		if(user.equalsIgnoreCase("stock"))
-			return ".\\src\\View\\stockpic"+Integer.toString(picNum+1)+".jpg";
-		else{
+		//if(user.equalsIgnoreCase("stock"))
+			//return ".\\src\\View\\stockpic"+Integer.toString(picNum+1)+".jpg";
+		//else{
 			return path;
-		}
+		//}
 	}
 	public String getPath()
 	{

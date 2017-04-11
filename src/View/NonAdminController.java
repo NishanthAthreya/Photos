@@ -43,6 +43,21 @@ public class NonAdminController {
 	private String selected;
 	public void start(String user){
 		userName = user;//user who logged in
+		if(user.equals("stock")){
+			try{
+			selected = "stock";
+			String path = "/View/insideAlbumPage.fxml";
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+			BorderPane root = (BorderPane)loader.load();
+			Stage stage = (Stage) logout.getScene().getWindow();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			InsideAlbumController inside = loader.getController();
+			inside.start(this.userName, selected, root, stage);
+			}catch(Exception e){
+				//nothing
+			}
+		}
 		open();
 		if(userAlbum != null){
 			Iterator<String> itr = userAlbum.getAlbums(user);

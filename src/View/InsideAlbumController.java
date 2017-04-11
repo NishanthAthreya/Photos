@@ -425,7 +425,14 @@ public class InsideAlbumController {
 	                    				stage.setScene(scene);
 	                    				//PhotoDisplayController photo = new PhotoDisplayController();
 	                    				PhotoDisplayController photo = loader.getController();
+	                    				//if(!user_name.equals("stock"))
 	                    				photo.start(imageFile.getAbsolutePath(),user_name, album_name, root, pics);
+	                    				//else{
+	                    					//photo.start(imageFile.getPath(),user_name, album_name, root, pics);
+	                    				//}
+	                    				//ArrayList<Picture> x = new ArrayList<Picture>();
+	                    				//x.add(new Picture("src/View/stockpic1.jpg", "pic1"));
+	                    				//photo.start("src/View/stockpic1.jpg",user_name, album_name, root, x);
 	                    				//photo.start();
 	                    				stage.show();
 	                    			}catch(IOException e1)

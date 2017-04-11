@@ -1,7 +1,10 @@
 package View;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
@@ -19,11 +22,28 @@ public class LoginController {
  @FXML Button go;
  @FXML TextField text;
  private ArrayList<String> users;
+ private UserAlbum userAlbum;
  private static final String filename= "users.dat";
+ private static final String filename2= "userAlbums.dat";
  public void start()
     {
-	 
+	 openAlbums();
 	 open();
+	 for(int i = 0;i < users.size();i++){
+		if(users.get(i).equals("stock"))
+			return;
+	 }
+	 users.add("stock");
+	 userAlbum.addUser("stock");
+	 userAlbum.addAlbum("stock", "stock");
+	 for(int i = 1;i < 11;i++){
+		 String path = "src/View/stockpic" + i + ".jpg";
+		 File file = new File(path);
+		 //System.out.println(file.getAbsolutePath());
+		 //userAlbum.addPic("stock", "stock", path);
+		 userAlbum.addPic("stock", "stock", file.getAbsolutePath());
+	 }
+	 saveAlbums();
     }
  public void exit(ActionEvent e){
 	 Platform.exit();
@@ -38,6 +58,7 @@ public class LoginController {
     //do nothing
    }
   }
+ 
  /* else if (text.getText().equalsIgnoreCase("stock"))
   {
 	  try{
@@ -60,6 +81,32 @@ public class LoginController {
 	  }
   }
   }
+ private void saveAlbums(){
+		try {
+			@SuppressWarnings("resource")
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(filename2));
+			oos.writeObject(userAlbum);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			//problem
+		}
+		
+	}
+	private void openAlbums(){
+		try{
+			@SuppressWarnings("resource")
+			ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(filename2));
+			userAlbum = (UserAlbum)ois.readObject();
+			if(userAlbum == null)
+				userAlbum = new UserAlbum();
+		}catch(Exception e){
+			//no users in system yet aside from Admin
+			userAlbum = new UserAlbum();
+		}
+	}
  private void handle(ActionEvent e, String path) throws IOException{
  // System.out.println("handle");
   /*Stage stage;
