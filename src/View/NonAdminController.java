@@ -1,5 +1,5 @@
 package View;
-
+import javafx.scene.control.Alert;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +23,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * This class is the controller for the non-admin page. This class handles all the functionalities that
+ * are available for the non-admin user.
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
+ */
 public class NonAdminController {
 	@FXML Button quit;
 	@FXML Button logout;
@@ -41,6 +47,11 @@ public class NonAdminController {
 	private String userName;
 	//private ArrayList<String> albums;
 	private String selected;
+	/**
+	 * This method starts the controller by initializing all the variables. All the albums are added to 
+	 * the listview.
+	 * @param user String variable, which is what is used to determine what albums should show up.
+	 */
 	public void start(String user){
 		userName = user;//user who logged in
 		if(user.equals("stock")){
@@ -91,11 +102,19 @@ public class NonAdminController {
 		}
 		listofalbums.setItems(obsList);*/
 	}
+	/**
+	 * This method is an event handler for the quit button. This exits the application after saving progress.
+	 * @param e
+	 */
 	public void quit(ActionEvent e){
 		save();
 		Platform.exit();
 		System.exit(0);
 	}
+	/**
+	 * This method is an event handler for the create button. This creates a new album.
+	 * @param e
+	 */
 	public void create(ActionEvent e)
 	{
 		if(!obsList.contains(album.getText()))
@@ -111,6 +130,10 @@ public class NonAdminController {
 			//give an alert saying album already exists!
 		}
 	}
+	/**
+	 * This method is an event handler for the delete button. This deletes the selected album in the listview.
+	 * @param e
+	 */
 	public void delete(ActionEvent e)
 	{
 		if(selected!=null)
@@ -120,6 +143,11 @@ public class NonAdminController {
 			save();
 		}
 	}
+	/**
+	 * This method is an event handler for the rename button. This method allows user to rename selected
+	 * album in the listview.
+	 * @param e
+	 */
 	public void rename(ActionEvent e)
 	{
 		if(selected!=null)
@@ -145,6 +173,10 @@ public class NonAdminController {
 			save();
 		}
 	}
+	/**
+	 * This method is an event handler for the search button. This changes screen to the search photos page.
+	 * @param e
+	 */
 	public void search(ActionEvent e)
 	{
 		try{
@@ -154,6 +186,11 @@ public class NonAdminController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is an event handler for the logout button. This goes back to the login page after saving 
+	 * progress.
+	 * @param e
+	 */
 	public void logout(ActionEvent e){
 		save();
 		try{
@@ -162,6 +199,10 @@ public class NonAdminController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is an event handler for the view button. This goes to the selected album's screen.
+	 * @param e
+	 */
 	public void viewAlbum(ActionEvent e){
 		save();
 		if(selected != null){
@@ -172,6 +213,10 @@ public class NonAdminController {
 			}
 		}
 	}
+	/**
+	 * This method is reading in from the file which stores all the data of the users and their
+	 * respective albums and photos by serialization.
+	 */
 	private void open(){
 		try{
 			@SuppressWarnings("resource")
@@ -182,6 +227,9 @@ public class NonAdminController {
 			//no users in system yet aside from Admin
 		}
 	}
+	/**
+	 * This method is writing to the file all data for the albums and photos by serialization.
+	 */
 	private void save(){
 		try {
 			@SuppressWarnings("resource")
@@ -235,6 +283,13 @@ public class NonAdminController {
 		}
 	}
 	*/
+	/**
+	 * This method handles different cases of changing screens. The various 
+	 * possible paths of fxml documents are checked to see which screen to change to.
+	 * @param e ActionEvent object
+	 * @param path String variable, which is the path of the fxml document
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path) throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
 		BorderPane root = (BorderPane)loader.load();

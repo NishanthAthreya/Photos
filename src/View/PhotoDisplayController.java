@@ -13,10 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -24,6 +26,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This class displays the photo along with its caption and date and time. The user can also view a slideshow of 
+ * photos in the album.
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
+ *
+ */
 public class PhotoDisplayController {
 
 	@FXML Button back;
@@ -47,6 +56,14 @@ public class PhotoDisplayController {
 	boolean nextVal = true;
 	ArrayList<Picture> pictures = new ArrayList<Picture>();
 	private ObservableList<String> obsList;
+	/**
+	 * This method starts the controller by initializing all necessary components of this screen. 
+	 * @param path String variable for the path of the image
+	 * @param user String variable for the user
+	 * @param album String variable for the name of the album
+	 * @param root BorderPane object
+	 * @param pics ArrayList<Picture>, all the pictures in this album
+	 */
 	public void start(String path, String user, String album, BorderPane root, ArrayList<Picture> pics)
 	{
 		obsList = FXCollections.observableArrayList();
@@ -105,6 +122,10 @@ public class PhotoDisplayController {
         }
         
 	}
+	/**
+	 * This method is an event handler for adding a tag to a picture.
+	 * @param e ActionEvent object
+	 */
 	public void addTag(ActionEvent e)
 	{
 		HashMap<String,String> pictags = pictures.get(index).getTags();
@@ -112,6 +133,10 @@ public class PhotoDisplayController {
 		pictures.get(index).setTags(pictags);
 		obsList.add(tagname.getText()+": " + tagvalue.getText());
 	}
+	/**
+	 * This method is an event handler for clicking the back button to go back to inside the album screen.
+	 * @param e ActionEvent object
+	 */
 	public void back(ActionEvent e)
 	{
 		try{
@@ -178,6 +203,10 @@ public class PhotoDisplayController {
 			//do nothing
 		//}
 	}*/
+	/**
+	 * This method is an event handler for clicking the next button to go to the next photo in the slideshow.
+	 * @param e ActionEvent object
+	 */
 	public void next(ActionEvent e)
 		{
 			try{
@@ -188,6 +217,11 @@ public class PhotoDisplayController {
 				//do nothing
 			}
 		}
+	/**
+	 * This method is an event handler for clicking the previous button to go to the previous photo in the 
+	 * slideshow.
+	 * @param e ActionEvent object
+	 */
 		public void previous(ActionEvent e)
 		{
 			try{
@@ -198,6 +232,11 @@ public class PhotoDisplayController {
 				//do nothing
 			}
 		}
+		/**
+		 * This method creates an ImageView of a given file.
+		 * @param file File object
+		 * @return ImageView
+		 */
 	private ImageView createImageView(File file)
 	{
 		ImageView imageView = null;
@@ -212,6 +251,16 @@ public class PhotoDisplayController {
         }
         return imageView;
 	}
+	/**
+	 * This method handles which screen to go to based on the various different event handling cases. 
+	 * If you click next on the last picture in the slideshow, it goes back to the beginning of the album,
+	 * and vice-versa.
+	 * @param e ActionEvent object 
+	 * @param path String variable, for the path of the image
+	 * @param user_name String variable
+	 * @param user_album String variable
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path, String user_name, String user_album) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -229,22 +278,43 @@ public class PhotoDisplayController {
 		{
 			
 			PhotoDisplayController photoDisp = loader.getController();
-			try{
-			photoDisp.start(pictures.get(index+1).getPath(), user_name, user_album, root, pictures);
-			}catch(IndexOutOfBoundsException e1)
+			//try{
+			if (index == pictures.size()-1)
 			{
-				// put alert here saying no more next!!!!!
+				index = -1;
 			}
+			photoDisp.start(pictures.get(index+1).getPath(), user_name, user_album, root, pictures);
+			//}catch(IndexOutOfBoundsException e1)
+			//{
+				//Alert alert = new Alert(AlertType.ERROR);
+				  //alert.setTitle("Error");
+				  //alert.setHeaderText("Can't go more next.");
+				  //alert.showAndWait();
+				  //return;
+			//}
 		}
 		if (path.equals(("/View/photodisplay.fxml"))&&nextVal==false)
 		{
 			PhotoDisplayController photoDisp = loader.getController();
-			try{
-			photoDisp.start(pictures.get(index-1).getPath(), user_name, user_album, root, pictures);
-			}catch(IndexOutOfBoundsException e1)
+			if (index==0)
 			{
-				// put alert here saying no more previous!!!!!
+				/*Alert alert = new Alert(AlertType.ERROR);
+				  alert.setTitle("Error");
+				  alert.setHeaderText("Can't go more previous.");
+				  alert.showAndWait();
+				  return;*/
+				index = pictures.size();
 			}
+			//try{
+			photoDisp.start(pictures.get(index-1).getPath(), user_name, user_album, root, pictures);
+			//}catch(IndexOutOfBoundsException e1)
+			//{
+				//Alert alert = new Alert(AlertType.ERROR);
+				  //alert.setTitle("Error");
+				  //alert.setHeaderText("Can't go more previous.");
+				  //alert.showAndWait();
+				  //return;
+			//}
 		}
 		stage.show();
 	}

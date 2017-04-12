@@ -19,7 +19,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+ * This class
+ * @author pkanukollu
+ *
+ */
 public class SearchedPhotosController {
 
 	private static final String filename = "userAlbums.dat";

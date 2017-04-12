@@ -19,10 +19,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * This class is simply a list view of all the users for the admin to view.
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
+ */
 public class ListofUsersController {
 	@FXML ListView<String> listofusers;
 	@FXML Button back;
 	//private ObservableList<String> obsList;
+	/**
+	 * This method starts the controller by setting the listview to be the list of users.
+	 */
 	public void start()
 	{
 		//System.out.println("called list");
@@ -34,6 +42,10 @@ public class ListofUsersController {
 		}*/
 		listofusers.setItems(ad.getListofUsers());
 	}
+	/**
+	 * This method is an event handler for clicking the back button. This goes back to admin page.
+	 * @param e
+	 */
 	public void back(ActionEvent e)
 	{
 		try{
@@ -43,6 +55,13 @@ public class ListofUsersController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method handles the case of changing screens. The various 
+	 * possible paths of fxml documents are checked to see which screen to change to.
+	 * @param e ActionEvent object
+	 * @param path String variable, which is the path of the fxml document
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path) throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
 		

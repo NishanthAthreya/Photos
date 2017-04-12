@@ -36,6 +36,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * This class is the controller for the inside album page. This class deals with all the various functionalities
+ * of a user browsing through an album.
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
+ */
 public class InsideAlbumController {
 	@FXML Button add;
 	@FXML Button back;
@@ -56,6 +62,13 @@ public class InsideAlbumController {
 	Scene scene;
 	BorderPane pane;
 	@SuppressWarnings("unchecked")
+	/**
+	 * This method starts the controller by initializing the different attributes of this screen.
+	 * @param user String user, the user who is accessing the album
+	 * @param album String album, the name of the album
+	 * @param root BorderPane object
+	 * @param stage1 Stage object
+	 */
 	public void start(String user, String album, BorderPane root, Stage stage1){
 		this.user_name = user;
 		this.album_name = album;
@@ -118,6 +131,11 @@ public class InsideAlbumController {
         }
         //stage.setScene(scene);
 	}
+	/**
+	 * This method is an event handler for the add photo button. This opens up a file chooser and allows
+	 * the user to select an image to upload to the album.
+	 * @param e
+	 */
 	public void add(ActionEvent e){
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
@@ -187,6 +205,10 @@ public class InsideAlbumController {
         	
         }
 	}
+	/**
+	 * This method is the event handler for the back button. This changes the screen to non admin page.
+	 * @param e
+	 */
 	public void back(ActionEvent e)
 	{
 		try{
@@ -196,6 +218,11 @@ public class InsideAlbumController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is the event handler for the logout button. This saves progress by serialization and goes
+	 * back to the login page.
+	 * @param e
+	 */
 	public void logout(ActionEvent e)
 	{
 		try{
@@ -206,6 +233,11 @@ public class InsideAlbumController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is the event handler for the quit button. This saves progress by serialization and
+	 * ends the application.
+	 * @param e
+	 */
 	public void quit(ActionEvent e)
 	{
 			saveAlbums();
@@ -254,6 +286,13 @@ public class InsideAlbumController {
 			//do nothing
 		}
 	}*/
+	/**
+	 * This method handles different cases of changing screens based on the username entered. The various 
+	 * possible paths of fxml documents are checked to see which screen to change to.
+	 * @param e ActionEvent object
+	 * @param path String variable, which is the path of the fxml document
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
@@ -300,6 +339,9 @@ public class InsideAlbumController {
 		}*/
 		stage.show();
 	}
+	/**
+	 * This method uses serialization to write all data to a file and save progress.
+	 */
 	private void saveAlbums(){
 		try {
 			@SuppressWarnings("resource")
@@ -313,6 +355,9 @@ public class InsideAlbumController {
 		}
 		
 	}
+	/**
+	 * This method uses serialization to read all data from a file.
+	 */
 	private void openAlbums(){
 		try{
 			@SuppressWarnings("resource")
@@ -326,6 +371,12 @@ public class InsideAlbumController {
 			userAlbum = new UserAlbum();
 		}
 	}
+	/**
+	 * This method uses a file to create an HBox for each image, along with its respective caption.
+	 * @param imageFile, File object of the image
+	 * @param l Label object
+	 * @return HBox
+	 */
 	private HBox createHbox(final File imageFile, Label l)
 	{
 		HBox hbox = new HBox();
