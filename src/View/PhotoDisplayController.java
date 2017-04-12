@@ -3,7 +3,10 @@ package View;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,6 +47,7 @@ public class PhotoDisplayController {
 	@FXML TextField tagvalue;
 	@FXML ImageView imageView;
 	@FXML ListView tags;
+	private static final String filename = "userAlbums.dat";
 	private String user;
 	private String album;
 	//private String path;
@@ -66,6 +70,7 @@ public class PhotoDisplayController {
 	 */
 	public void start(String path, String user, String album, BorderPane root, ArrayList<Picture> pics)
 	{
+		openAlbums();
 		obsList = FXCollections.observableArrayList();
 		this.user = user;
 		this.album = album;
@@ -78,7 +83,7 @@ public class PhotoDisplayController {
 		}
 		tags.setItems(obsList);
 		//this.path = path;
-		userAlbum = new UserAlbum();
+		//userAlbum = new UserAlbum();
 		//ArrayList<String> pics = userAlbum.getPics(user, album);
 		//System.out.println("first pic: " + pics.get(0)+ " " + "second pic: " + pics.get(1) + " " + "third pic: " + pics.get(2));
 		pane = root;
@@ -128,10 +133,21 @@ public class PhotoDisplayController {
 	 */
 	public void addTag(ActionEvent e)
 	{
+		pictures = userAlbum.getPics(user, album);
 		HashMap<String,String> pictags = pictures.get(index).getTags();
 		pictags.put(tagname.getText(), tagvalue.getText());
 		pictures.get(index).setTags(pictags);
 		obsList.add(tagname.getText()+": " + tagvalue.getText());
+		saveAlbums();
+	}
+	/**
+	 * removes tag
+	 */
+	public void remove(ActionEvent e){
+		pictures = userAlbum.getPics(user, album);
+		pictures.get(index).removeTag(tagname.getText(), tagvalue.getText());
+		obsList.remove(tagname.getText()+": " + tagvalue.getText());
+		saveAlbums();
 	}
 	/**
 	 * This method is an event handler for clicking the back button to go back to inside the album screen.
@@ -267,6 +283,7 @@ public class PhotoDisplayController {
 		BorderPane root = (BorderPane)loader.load();
 		Stage stage = (Stage) back.getScene().getWindow();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/application/application.css");
 		stage.setScene(scene);
 		if(path.equals("/View/insideAlbumPage.fxml"))
 		{
@@ -317,5 +334,37 @@ public class PhotoDisplayController {
 			//}
 		}
 		stage.show();
+	}
+	/**
+	 * This method uses serialization to read all data from a file.
+	 */
+	private void openAlbums(){
+		try{
+			@SuppressWarnings("resource")
+			ObjectInputStream ois = new ObjectInputStream(
+					new FileInputStream(filename));
+			userAlbum = (UserAlbum)ois.readObject();
+			if(userAlbum == null)
+				userAlbum = new UserAlbum();
+		}catch(Exception e){
+			//no users in system yet aside from Admin
+			userAlbum = new UserAlbum();
+		}
+	}
+	/**
+	 * This method uses serialization to write all data to a file and save progress.
+	 */
+	private void saveAlbums(){
+		try {
+			@SuppressWarnings("resource")
+			ObjectOutputStream oos = new ObjectOutputStream(
+					new FileOutputStream(filename));
+			oos.writeObject(userAlbum);
+		} 
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			//problem
+		}
+		
 	}
 }

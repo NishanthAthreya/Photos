@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -20,8 +23,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -74,7 +80,7 @@ public class InsideAlbumController {
 		this.album_name = album;
 		option = 0;
 		//System.out.println(choice);
-		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy", "Add tag", "Remove tag"));
+		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
@@ -164,6 +170,14 @@ public class InsideAlbumController {
 		} else {
 		    //default return value
 		    path = null;
+		}
+		ArrayList<Picture> newPics = userAlbum.getPics(user_name, album_name);
+		if(newPics.contains(new Picture(path,"random"))){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Already exists in target album");
+			alert.showAndWait();
+			return;
 		}
 		saveAlbums();
 		ScrollPane scroll = new ScrollPane();
@@ -301,6 +315,7 @@ public class InsideAlbumController {
 		BorderPane root = (BorderPane)loader.load();
 		Stage stage = (Stage) back.getScene().getWindow();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/application/application.css");
 		stage.setScene(scene);
 		if (path.equals("/View/nonadminpage.fxml"))
 		{
@@ -500,8 +515,8 @@ public class InsideAlbumController {
 	                    	        tile.setHgap(1500);
 	                    	        tile.setVgap(25);
 	                    	        pics = userAlbum.getPics(user_name, album_name);
-	                    	        if(pics == null)
-	                    	        	System.out.println("oh");
+	                    	        //if(pics == null)
+	                    	        	//System.out.println("oh");
 	                    	        if(pics == null)
 	                    	        	return;
 	                    	        for(int i = 0;i < pics.size();i++){
@@ -527,6 +542,99 @@ public class InsideAlbumController {
 	                    	        }
 	                    	        saveAlbums();
 	                    	        //stage.setScene(scene);
+	                    			
+	                    		}
+	                    		if(option == 4){//moving
+	                    			//Alert a = new Alert(AlertType.INFORMATION);
+	                    			String pathpic = imageFile.getPath();
+	                    			Iterator<String> allAlbums = userAlbum.getAlbums(user_name);
+	                    			List<String> theAlbums = new ArrayList<String>();
+	                    			while(allAlbums.hasNext()){
+	                    				theAlbums.add(allAlbums.next());
+	                    			}
+	                    			ChoiceDialog<String> dialog;
+	                    			dialog = new ChoiceDialog<String>(theAlbums.get(0), theAlbums);
+	                    			Optional<String> result = dialog.showAndWait();
+	                    			String s = null;
+	                    			if(result.isPresent()){
+	                    				s = result.get();
+	                    			}
+	                    			//System.out.println(s);
+	                    			if(s == null)
+	                    				return;
+	                    			ArrayList<Picture> newPics = userAlbum.getPics(user_name, s);
+	                    			if(newPics.contains(new Picture(pathpic,"random"))){
+	                    				Alert alert = new Alert(AlertType.ERROR);
+	                    				alert.setTitle("Error");
+	                    				alert.setHeaderText("Already exists in target album");
+	                    				alert.showAndWait();
+	                    				return;
+	                    			}
+	                    			userAlbum.deletePic(user_name, album_name, pathpic);
+	                    			userAlbum.addPic(user_name, s, pathpic);
+	                    			ScrollPane scroll = new ScrollPane();
+	                    	        TilePane tile = new TilePane();
+	                    	        pane.setStyle("-fx-background-color: DAE6F3;");
+	                    	        //tile.setPadding(new Insets(15, 15, 15, 15));
+	                    	        tile.setHgap(1500);
+	                    	        tile.setVgap(25);
+	                    	        pics = userAlbum.getPics(user_name, album_name);
+	                    	        if(pics == null)
+	                    	        	return;
+	                    	        for(int i = 0;i < pics.size();i++){
+	                    	        	//System.out.println(pics.get(i));
+	                    	        	ImageView imageView;
+	                    	        	HBox hbox;
+	                    	           // imageView = createImageView(new File(pics.get(i)));
+	                    	        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+	                    	            tile.getChildren().addAll(hbox);
+	                    	        }
+	                    	        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
+	                    	        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
+	                    	        scroll.setFitToWidth(true);
+	                    	        scroll.setContent(tile);
+	                    	        pane.setCenter(scroll);
+	                    	        if(scene !=null)
+	                    	        	scene.setRoot(null);
+	                    	        try{
+	                    	        	scene = new Scene(pane);
+	                    	        	stage.setScene(scene);
+	                    	        }catch(Exception e){
+	                    	        	
+	                    	        }
+	                    	        saveAlbums();
+	                    			//String path = imageFile.getPath();
+	                    			
+	                    		}
+	                    		if(option == 5){//copying
+	                    			//Alert a = new Alert(AlertType.INFORMATION);
+	                    			String pathpic = imageFile.getPath();
+	                    			Iterator<String> allAlbums = userAlbum.getAlbums(user_name);
+	                    			List<String> theAlbums = new ArrayList<String>();
+	                    			while(allAlbums.hasNext()){
+	                    				theAlbums.add(allAlbums.next());
+	                    			}
+	                    			ChoiceDialog<String> dialog;
+	                    			dialog = new ChoiceDialog<String>(theAlbums.get(0), theAlbums);
+	                    			Optional<String> result = dialog.showAndWait();
+	                    			String s = null;
+	                    			if(result.isPresent()){
+	                    				s = result.get();
+	                    			}
+	                    			//System.out.println(s);
+	                    			if(s == null)
+	                    				return;
+	                    			ArrayList<Picture> newPics = userAlbum.getPics(user_name, s);
+	                    			if(newPics.contains(new Picture(pathpic,"random"))){
+	                    				Alert alert = new Alert(AlertType.ERROR);
+	                    				alert.setTitle("Error");
+	                    				alert.setHeaderText("Already exists in target album");
+	                    				alert.showAndWait();
+	                    				return;
+	                    			}
+	                    			userAlbum.addPic(user_name, s, pathpic);
+	                    	        saveAlbums();
+	                    			//String path = imageFile.getPath();
 	                    			
 	                    		}
 	                    		if(option == 6){ //Adding tag

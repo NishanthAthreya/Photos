@@ -1,1 +1,29 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+#welcome{
+	-fx-font: bold 30pt "Arial";
+	-fx-text-fill: yellow;
+	-fx-alignment:center;
+}
+.button{
+    -fx-font: bold italic 10pt "Arial";
+    -fx-background-color: #000080;
+    -fx-text-fill: yellow;
+}
+
+#exit{
+	-fx-background-color: #FF0000;
+	-fx-text-fill: yellow;
+}
+#pane{
+	-fx-background-color: #20B2AA;
+}
+#bgadmin{
+	-fx-background-color: #20B2AA;
+}
+#bgnonadmin{
+	-fx-background-color: #20B2AA;
+}
+.list-view{
+	-fx-opacity: 0.6;
+    -fx-control-inner-background: #7FFFD4;
+    -fx-background-color: #1d1d1d;
+}

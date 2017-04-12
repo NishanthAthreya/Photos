@@ -155,6 +155,7 @@ public class LoginController {
   //Stage stage = new Stage();
   Stage stage = (Stage) go.getScene().getWindow();
   Scene scene = new Scene(root);
+  scene.getStylesheets().add("/application/application.css");
   stage.setScene(scene);
   if(path.equals("/View/adminpage.fxml")){
 	  AdminController adminController = loader.getController();

@@ -28,7 +28,7 @@
             <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="102.0" text="Back to Album" translateY="-110.0" GridPane.columnIndex="2" />
             <ListView fx:id="tags" prefHeight="121.0" prefWidth="103.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button fx:id = "addtag" onAction = "#addTag" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Add Tag" translateY="-20.0" GridPane.rowIndex="1" />
-            <Button fx:id = "removetag" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Remove Tag" translateY="30.0" GridPane.rowIndex="1" />
+            <Button fx:id = "removetag" onAction = "#remove" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Remove Tag" translateY="30.0" GridPane.rowIndex="1" />
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -176,6 +176,7 @@ public class AdminController {
 		BorderPane root = (BorderPane)loader.load();
 		Stage stage = (Stage) list.getScene().getWindow();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/application/application.css");
 		stage.setScene(scene);
 		if(path.equals("/View/listofusers.fxml"))
 		{

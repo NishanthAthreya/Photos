@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.LoginController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -21,7 +21,7 @@
           <RowConstraints maxHeight="193.0" minHeight="10.0" prefHeight="113.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="134.0" prefWidth="593.0" text="Welcome to Photos">
+            <Label fx:id="welcome" prefHeight="134.0" prefWidth="593.0" text="Welcome to Photos">
                <font>
                   <Font size="46.0" />
                </font>

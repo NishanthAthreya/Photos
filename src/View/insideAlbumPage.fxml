@@ -23,7 +23,7 @@
             <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="Back to Albums" translateX="50.0" GridPane.columnIndex="1" />
             <Button fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" translateX="50.0" GridPane.columnIndex="2" />
             <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" text="logout" translateX="170.0" GridPane.columnIndex="2" />
-            <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="131.0" translateX="20.0" />
+            <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="131.0" translateX="20.0" value = "Options" />
          </children>
       </GridPane>
    </top>
@@ -49,8 +49,7 @@
                <children>
                   
                   <Button fx:id="add" mnemonicParsing="false" onAction="#add" text="Add Photo" translateX="-135.0" GridPane.columnIndex="1" />
-                  <TextField fx:id="tagname" promptText="Enter Tag Name" translateX="200.0" />
-                  <TextField fx:id="tagvalue" promptText="Enter Tag Value" translateX="400.0" />
+                  
                </children>
             </GridPane>
             <TextField fx:id="captionText" promptText=" Enter caption or tag here, and select either caption/add tag in the choicebox after, and then click the picture." />

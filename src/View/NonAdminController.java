@@ -295,6 +295,7 @@ public class NonAdminController {
 		BorderPane root = (BorderPane)loader.load();
 		Stage stage = (Stage) logout.getScene().getWindow();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/application/application.css");
 		stage.setScene(scene);
 		if(path.equals("/View/loginpage.fxml")){
 			LoginController loginController = loader.getController();

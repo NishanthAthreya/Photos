@@ -69,6 +69,7 @@ public class ListofUsersController {
 		BorderPane root = (BorderPane)loader.load();
 		Stage stage = (Stage) back.getScene().getWindow();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/application/application.css");
 		stage.setScene(scene);
 		if(path.equals("/View/adminpage.fxml"))
 		{

@@ -19,6 +19,7 @@ public class Photos extends Application {
 			LoginController loginController = loader.getController();
 			loginController.start();
 			Scene scene = new Scene(root);
+			scene.getStylesheets().add("/application/application.css");
 			//scene.getStylesheets().add(getClass().getResource("loginpage.fxml"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
