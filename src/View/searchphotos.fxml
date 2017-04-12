@@ -21,12 +21,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id = "startDate" promptText="Enter Start Date: MM/DD/YYYY HH:mm:ss" />
-            <TextField fx:id = "endDate" promptText="Enter End Date: MM/DD/YYYY HH:mm:ss" GridPane.columnIndex="1" />
+            <TextField fx:id = "startDate" promptText="Start Date format: MM/DD/YYYY HH:mm:ss" />
+            <TextField fx:id = "endDate" promptText="End Date format: MM/DD/YYYY HH:mm:ss" GridPane.columnIndex="1" />
             <TextField fx:id="tagname" promptText="Enter tag name to be added as a search filter" GridPane.rowIndex="1" />
             <TextField fx:id="tagvalue" promptText="Enter tag value to be added as a search filter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="back" onAction = "#back" mnemonicParsing="false" text="Back" translateX="20.0" GridPane.columnIndex="2" />
-            <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add " translateX="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="add" onAction="#add" mnemonicParsing="false" text="Add tag" translateX="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </top>

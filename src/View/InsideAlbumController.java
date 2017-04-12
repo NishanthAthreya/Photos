@@ -80,7 +80,7 @@ public class InsideAlbumController {
 		this.album_name = album;
 		option = 0;
 		//System.out.println(choice);
-		choice.setItems(FXCollections.observableArrayList("Options", "Caption", "View", "Remove", "Move", "Copy"));
+		choice.setItems(FXCollections.observableArrayList("Options", "Add Caption", "View Photo", "Remove Photo", "Move Photo", "Copy Photo"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
@@ -171,14 +171,14 @@ public class InsideAlbumController {
 		    //default return value
 		    path = null;
 		}
-		ArrayList<Picture> newPics = userAlbum.getPics(user_name, album_name);
+		/*ArrayList<Picture> newPics = userAlbum.getPics(user_name, album_name);
 		if(newPics.contains(new Picture(path,"random"))){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Already exists in target album");
 			alert.showAndWait();
 			return;
-		}
+		}*/
 		saveAlbums();
 		ScrollPane scroll = new ScrollPane();
         TilePane tile = new TilePane();

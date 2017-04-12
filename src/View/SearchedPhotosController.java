@@ -14,15 +14,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 /**
- * This class
- * @author pkanukollu
- *
+ * This class is the controller for the screen for searching for photos. 
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
  */
 public class SearchedPhotosController {
 
@@ -41,6 +43,11 @@ public class SearchedPhotosController {
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	private HashMap<String,String> searchTags = new HashMap<String,String>();
 	ArrayList<Picture> result = new ArrayList<Picture>();
+	/**
+	 * This is the start method which initializes all the components of the screen.
+	 * @param userAlbum UserAlbum object
+	 * @param user String variable
+	 */
 	public void start(UserAlbum userAlbum, String user)
 	{
 		//System.out.println(userAlbum.getPics(user,"jonn").get(0).getPath());
@@ -86,13 +93,30 @@ public class SearchedPhotosController {
 		}*/
 		//System.out.println(result.size());
 	}
+	/**
+	 * This method sets the user to a new user.
+	 * @param user String variable
+	 */
 	public void setUser(String user)
 	{
 		u = user;
 		//x = user;
 	}
+	/**
+	 * This method is the event handler for the add tag button, which adds the entered tag to the list view.
+	 * @param e ActionEvent object
+	 */
 	public void add(ActionEvent e)
 	{
+		//System.out.println(endDate.getText());
+		if (!(startDate.getText().isEmpty()) || !(endDate.getText().isEmpty()))
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Can't add date to list");
+			alert.showAndWait();
+			return;
+		}
 		searchTags.put(tagname.getText(), tagvalue.getText());
 		obsList.add("Tag: " + tagname.getText() + ", Value: " + tagvalue.getText());
 		tags.setItems(obsList);
@@ -132,6 +156,10 @@ public class SearchedPhotosController {
 		}*/
 		//this.start(al, u);
 	}
+	/**
+	 * This method is the event handler for the back button.
+	 * @param e ActionEvent object
+	 */
 	public void back(ActionEvent e)
 	{
 		try{
@@ -141,6 +169,10 @@ public class SearchedPhotosController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is the event handler for the search button.
+	 * @param e ActionEvent object
+	 */
 	public void search(ActionEvent e)
 	{
 		//System.out.println(u);
@@ -165,6 +197,12 @@ public class SearchedPhotosController {
 			al = new UserAlbum();
 		}
 	}
+	/**
+	 * This method is used to change screens using the paths of different fxml documents.
+	 * @param e ActionEvent object
+	 * @param path String variable
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path) throws IOException
 	{
 		//u = x;
@@ -196,7 +234,7 @@ public class SearchedPhotosController {
 				albums.add(iter.next());
 			}
 			//System.out.println(tagname.getText());
-			if (startDate.getText()!="")
+			if (!(startDate.getText().isEmpty()))
 			{
 				//System.out.println("entered");
 				String startD = startDate.getText();

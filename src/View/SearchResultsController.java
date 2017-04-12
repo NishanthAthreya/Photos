@@ -23,6 +23,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
+/**
+ * This class is the controller for the search results screen. This class shows all the images which 
+ * match up the search filters.
+ * @author Pranav Kanukollu, pvk9
+ * @author Nishanth Athreya, nsa48
+ */
 public class SearchResultsController {
 
 	BorderPane pane;
@@ -34,6 +40,14 @@ public class SearchResultsController {
 	@FXML Button back;
 	@FXML Button create;
 	@FXML TextField album;
+	/**
+	 * This method starts the controller by initializing all the components of this screen.
+	 * @param result ArrayList<Picture>
+	 * @param root BorderPane object
+	 * @param stage1 Stage object
+	 * @param us UserAlbum object
+	 * @param user String variable
+	 */
 	public void start(ArrayList<Picture> result, BorderPane root, Stage stage1, UserAlbum us, String user)
 	{
 		//System.out.println("entered");
@@ -68,6 +82,12 @@ public class SearchResultsController {
         	
         }
 	}
+	/**
+	 * This method creates an HBox view of the image, along with its label.
+	 * @param imageFile File
+	 * @param l Label
+	 * @return
+	 */
 	private HBox createHbox(final File imageFile, Label l)
 	{
 		HBox hbox = new HBox();
@@ -91,6 +111,10 @@ public class SearchResultsController {
      hbox.getChildren().add((l));
      return hbox;
 }
+	/**
+	 * This method creates an album with the given search results.
+	 * @param e ActionEvent object
+	 */
 	public void createAlbum(ActionEvent e)
 	{
 		try{
@@ -100,6 +124,10 @@ public class SearchResultsController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is an event handler for the back button, and goes back to the search photos screen.
+	 * @param e ActionEvent object
+	 */
 	public void back(ActionEvent e)
 	{
 		try{
@@ -109,6 +137,10 @@ public class SearchResultsController {
 			//do nothing
 		}
 	}
+	/**
+	 * This method is to write all contents of the save results to a file using serialization. This is used
+	 * when creating a new album based on given search results.
+	 */
 	private void save(){
 		try {
 			@SuppressWarnings("resource")
@@ -121,6 +153,12 @@ public class SearchResultsController {
 			//problem
 		}
 	}
+	/**
+	 * This method is used to handle the various possible screens it can change to based on the event.
+	 * @param e ActionEvent object
+	 * @param path String variable
+	 * @throws IOException
+	 */
 	private void handle(ActionEvent e, String path) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
