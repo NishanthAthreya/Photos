@@ -36,9 +36,17 @@ public class Picture implements Serializable {
 		this.caption = caption;
 		
 	}
+	/**
+	 * This method sets the name of the picture to a new name.
+	 * @param name String variable
+	 */
 	public void setName(String name){
 		this.name = name;
 	}
+	/**
+	 * This method returns the name of the picture.
+	 * @return String variable
+	 */
 	public String getName(){
 		return this.name;
 	}
