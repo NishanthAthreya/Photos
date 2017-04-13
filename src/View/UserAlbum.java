@@ -58,7 +58,7 @@ public class UserAlbum implements Serializable{
 	 * @param album String variable
 	 * @param pic String variable
 	 */
-	public void addPic(String user, String album, String pic){
+	public void addPic(String user, String album, String pic, String name){
 		long lastModif = new File(pic).lastModified();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String modif = sdf.format(lastModif);
@@ -67,6 +67,7 @@ public class UserAlbum implements Serializable{
 		Picture picture = new Picture(pic, "");
 		picture.setDateAndTime(modif);
 		picture.calendar(modif);
+		picture.setName(name);
 		if(albums.get(user) != null){//user exists
 			if(albums.get(user).containsKey(album)){//album exists
 				if(albums.get(user).get(album) == null){//no pics in album

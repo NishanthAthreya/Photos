@@ -170,7 +170,7 @@ public class NonAdminController {
 				ArrayList<Picture> pics = userAlbum.getPics(userName, selected);
 				for (int i = 0; i<pics.size();i++)
 				{
-					userAlbum.addPic(userName, a, pics.get(i).getPath());
+					userAlbum.addPic(userName, a, pics.get(i).getPath(), pics.get(i).getName());
 				}
 				userAlbum.deleteAlbum(userName, s);
 				obsList.remove(s);

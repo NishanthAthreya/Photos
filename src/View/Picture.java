@@ -13,6 +13,7 @@ public class Picture implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String path;
 	private String caption;
+	private String name;
 	int month;
 	int date;
 	int year;
@@ -34,6 +35,12 @@ public class Picture implements Serializable {
 		this.path = path;
 		this.caption = caption;
 		
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+	public String getName(){
+		return this.name;
 	}
 	/**
 	 * This method returns the path of the picture.
@@ -118,7 +125,7 @@ public class Picture implements Serializable {
 	public boolean equals(Object o){
 		if(o instanceof Picture){
 			Picture pic = (Picture)o;
-			if(this.path.equals(pic.getPath()))
+			if((this.name != null && this.name.equals(pic.getName())) || (this.path.equals(pic.getPath())))
 				return true;
 		}
 		return false;

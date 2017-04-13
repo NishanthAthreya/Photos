@@ -179,7 +179,7 @@ public class SearchResultsController {
 			userAlbum.addAlbum(user, album.getText());
 			for (int i = 0; i<pics.size();i++)
 			{
-			userAlbum.addPic(user, album.getText(), pics.get(i).getPath());
+			userAlbum.addPic(user, album.getText(), pics.get(i).getPath(), pics.get(i).getName());
 			}
 			save();
 			nonadmin.start(user);

@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -80,10 +81,61 @@ public class InsideAlbumController {
 		this.album_name = album;
 		option = 0;
 		//System.out.println(choice);
-		choice.setItems(FXCollections.observableArrayList("Options", "Add Caption", "View Photo", "Remove Photo", "Move Photo", "Copy Photo"));
+		choice.setItems(FXCollections.observableArrayList("Options", "Add Caption", "View Photo", "Remove Photo", "Move Photo", "Copy Photo", "Sort"));
 		choice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
 			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, Number value, Number new_value){
 				option = new_value.intValue();
+				if(option == 6){
+					ChoiceDialog<String> dialog;
+        			String[] choices = {"alphabetically", "date"};
+        			List<String> list = Arrays.asList(choices);
+        			dialog = new ChoiceDialog<String>(list.get(0), list);
+        			dialog.setTitle("sorting");
+        			dialog.setHeaderText("please indicate type of sort");
+        			Optional<String> result = dialog.showAndWait();
+        			String s = null;
+        			if(result.isPresent()){
+        				s = result.get();
+        			}
+        			//System.out.println(s);
+        			if(s == null)
+        				return;
+        			pics = userAlbum.getPics(user_name, album_name);
+        			if(s.equals("date")){
+        				//Collections.sort(pics, (Picture p1, Picture p2)->p1.getDateTime() - p2.getDateTime());
+        				pics.sort((Picture p1, Picture p2)->p1.getCalendar().compareTo(p2.getCalendar()));
+        			}
+        			else if(s.equals("alphabetically")){
+        				pics.sort((Picture p1, Picture p2)->p1.getName().compareTo(p2.getName()));
+        			}
+        			ScrollPane scroll = new ScrollPane();
+        	        TilePane tile = new TilePane();
+        	        pane.setStyle("-fx-background-color: DAE6F3;");
+        	        //tile.setPadding(new Insets(15, 15, 15, 15));
+        	        tile.setHgap(1500);
+        	        tile.setVgap(25);
+        			 for(int i = 0;i < pics.size();i++){
+        		        	//System.out.println(pics.get(i));
+        		        	ImageView imageView;
+        		        	HBox hbox;
+        		           // imageView = createImageView(new File(pics.get(i)));
+        		        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+        		            tile.getChildren().addAll(hbox);
+        		        }
+        		        
+        		        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
+        		        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
+        		        scroll.setFitToWidth(true);
+        		        scroll.setContent(tile);
+        		        pane.setCenter(scroll);
+        		        //stage1.setScene(null);
+        		       try{
+        		        	scene = new Scene(pane);
+        		        	stage.setScene(scene);
+        		        }catch(Exception e){
+        		        	//do nothing
+        		        }
+				}
 			}
 		});
 		openAlbums();
@@ -163,9 +215,19 @@ public class InsideAlbumController {
 		
 		if(chosenFile != null) {
 		    path = chosenFile.getPath();
-		   // System.out.println(path);
+		    String name = chosenFile.getName();
+		    ArrayList<Picture> newPics = userAlbum.getPics(user_name, album_name);
+		    Picture p = new Picture(path,"random");
+		    p.setName(name);
+			if(newPics.contains(p)){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Already exists in target album");
+				alert.showAndWait();
+				return;
+			}
 		    if(userAlbum != null){
-		    	userAlbum.addPic(this.user_name, this.album_name, path);
+		    	userAlbum.addPic(this.user_name, this.album_name, path, name);
 		    }
 		} else {
 		    //default return value
@@ -416,8 +478,8 @@ public class InsideAlbumController {
 	                    	if(mouseEvent.getClickCount() ==1){
 	                    		if (option == 1)	//caption
 	                    		{
-	                    			ScrollPane scroll = new ScrollPane();
-	                    	        TilePane tile = new TilePane();
+	                    			//ScrollPane scroll = new ScrollPane();
+	                    	        //TilePane tile = new TilePane();
 	                    			//System.out.println(captionText.getText());
 	                    			//Picture pic = new Picture(imageFile.getAbsolutePath(), " ");
 	                    	   
@@ -433,50 +495,38 @@ public class InsideAlbumController {
 	                    				}
 	                    			}
 	                    			saveAlbums();
-	                    			 if(pics == null)
-		                    	        	System.out.println("oh");
-		                    	        if(pics == null)
-		                    	        	return;
-		                    	   
-		                    	        for(int i = 0;i < pics.size();i++){
-		                    	        	//System.out.println(pics.get(i));
-		                    	        	//System.out.println(pics.get(i).getCaption());
-		                    	        	ImageView imageView;
-		                    	        	HBox hbox;
-		                    	           // imageView = createImageView(new File(pics.get(i)));
-		                    	        	/*if (user_name.equals("stock"))
-		                    	        	{
-		                    	        		hbox= createHbox(new File(pics.get(i).getPath(user_name,i)), new Label(pics.get(i).getCaption()));
-		                    	        	}*/
-		                    	        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
-		                    	        	//System.out.println(hbox);
-		                    	        	//System.out.println(pics.get(i).getCaption());
-		                    	            tile.getChildren().addAll(hbox);
-		                    	        }
-		                    	        /*try{
-		                    	        scene = new Scene(pane);
+	                    			ScrollPane scroll = new ScrollPane();
+	                    	        TilePane tile = new TilePane();
+	                    	        pane.setStyle("-fx-background-color: DAE6F3;");
+	                    	        //tile.setPadding(new Insets(15, 15, 15, 15));
+	                    	        tile.setHgap(1500);
+	                    	        tile.setVgap(25);
+	                    	        pics = userAlbum.getPics(user_name, album_name);
+	                    	        //if(pics == null)
+	                    	        	//System.out.println("oh");
+	                    	        if(pics == null)
+	                    	        	return;
+	                    	        for(int i = 0;i < pics.size();i++){
+	                    	        	//System.out.println(pics.get(i));
+	                    	        	ImageView imageView;
+	                    	        	HBox hbox;
+	                    	           // imageView = createImageView(new File(pics.get(i)));
+	                    	        	hbox= createHbox(new File(pics.get(i).getPath()), new Label(pics.get(i).getCaption()));
+	                    	            tile.getChildren().addAll(hbox);
+	                    	        }
+	                    	        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
+	                    	        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
+	                    	        scroll.setFitToWidth(true);
+	                    	        scroll.setContent(tile);
+	                    	        pane.setCenter(scroll);
+	                    	        if(scene !=null)
+	                    	        	scene.setRoot(null);
+	                    	        try{
+	                    	        	scene = new Scene(pane);
 	                    	        	stage.setScene(scene);
-		                    	        }catch(Exception e1)
-		                    	        {
-		                    	        	
-		                    	        }*/
-		                    	      /*  scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Horizontal
-		                    	        scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED); // Vertical scroll bar
-		                    	        scroll.setFitToWidth(true);
-		                    	        scroll.setContent(tile);
-		                    	        pane.setCenter(scroll);
-		                    	        if(scene !=null)
-		                    	        	scene.setRoot(null);
-		                    	        try{
-		                    	        	scene = new Scene(pane);
-		                    	        	stage.setScene(scene);
-		                    	        }catch(Exception e){
-		                    	        	
-		                    	        }*/
-	                    			
-	                    			//InsideAlbumController ins = new InsideAlbumController();
-	                    			//ins.start(user_name, album_name, pane, stage);
-	                    			//pic.setCaption(captionText.getText());
+	                    	        }catch(Exception e){
+	                    	        	
+	                    	        }
 	                    		}
 	                    		if(option == 2)	
 	                    		{	
@@ -547,6 +597,7 @@ public class InsideAlbumController {
 	                    		if(option == 4){//moving
 	                    			//Alert a = new Alert(AlertType.INFORMATION);
 	                    			String pathpic = imageFile.getPath();
+	                    			String name = imageFile.getName();
 	                    			Iterator<String> allAlbums = userAlbum.getAlbums(user_name);
 	                    			List<String> theAlbums = new ArrayList<String>();
 	                    			while(allAlbums.hasNext()){
@@ -571,7 +622,7 @@ public class InsideAlbumController {
 	                    				return;
 	                    			}
 	                    			userAlbum.deletePic(user_name, album_name, pathpic);
-	                    			userAlbum.addPic(user_name, s, pathpic);
+	                    			userAlbum.addPic(user_name, s, pathpic, name);
 	                    			ScrollPane scroll = new ScrollPane();
 	                    	        TilePane tile = new TilePane();
 	                    	        pane.setStyle("-fx-background-color: DAE6F3;");
@@ -609,6 +660,7 @@ public class InsideAlbumController {
 	                    		if(option == 5){//copying
 	                    			//Alert a = new Alert(AlertType.INFORMATION);
 	                    			String pathpic = imageFile.getPath();
+	                    			String name = imageFile.getName();
 	                    			Iterator<String> allAlbums = userAlbum.getAlbums(user_name);
 	                    			List<String> theAlbums = new ArrayList<String>();
 	                    			while(allAlbums.hasNext()){
@@ -632,7 +684,7 @@ public class InsideAlbumController {
 	                    				alert.showAndWait();
 	                    				return;
 	                    			}
-	                    			userAlbum.addPic(user_name, s, pathpic);
+	                    			userAlbum.addPic(user_name, s, pathpic, name);
 	                    	        saveAlbums();
 	                    			//String path = imageFile.getPath();
 	                    			

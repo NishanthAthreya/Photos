@@ -52,7 +52,7 @@ public class LoginController {
 		 File file = new File(path);
 		 //System.out.println(file.getAbsolutePath());
 		 //userAlbum.addPic("stock", "stock", path);
-		 userAlbum.addPic("stock", "stock", file.getAbsolutePath());
+		 userAlbum.addPic("stock", "stock", file.getAbsolutePath(), file.getName());
 	 }
 	 saveAlbums();
     }
